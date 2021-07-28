@@ -1,0 +1,45 @@
+--------------------------------------------------------------------------------
+ Universidade Federal de Minas Gerais
+ Instituto de Ciências Exatas
+ Departamento de Ciência da Computação
+ Compiladores DCC010/DCC053 - 2021/1
+--------------------------------------------------------------------------------
+
+ <><><> Emulador <><><>
+
+    Instruções de compilação e execução:
+
+        1. Na pasta raíz do emulador (onde está o arquivo Makefile), rode os
+        seguintes comados:
+
+        $> make clean
+        $> make
+
+        2. O emulador possui dois modos: simples e verbose. No primeiro, apenas
+        a saída do programa é apresentada; no segundo, o emulador imprime, a
+        cada instrução, a operação que está sendo executada e o estado da MV
+        após a execução da instrução (para debug).
+
+        2.1. Para utilizar o emulador no modo simples, execute o seguinte
+        comando:
+
+        $> bin/emulador <caminho/para/arquivo.mv>
+
+        2.2. Para utilizar o emulador no modo verbose, execute o seguinte
+        comando:
+
+        $> bin/emulador -v <caminho/para/arquivo.mv>
+
+        3. A pasta "tst" contém um arquivo de exemplo, no formato da máquina
+        virtual. O programa lê um inteiro "x" e imprime o resultado da operação
+        100 + x.
+
+ * Dúvidas gerais: Fórum do Moodle (se disponível) ou Teams.
+
+ * Dúvidas individuais: Mensagem privada no Teams ou email para
+   luigi.domenico@dcc.ufmg.br com a tag "[Compiladores]".
+
+ * Caso encontre erros no emulador, envie mensagem por qualquer um dos canais
+   acimas, com o maior detalhamento possível.
+
+--------------------------------------------------------------------------------
