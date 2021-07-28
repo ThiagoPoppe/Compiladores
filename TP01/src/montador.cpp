@@ -10,92 +10,88 @@ Montador::Montador(std::string filename) {
 Montador::~Montador() { }
 
 void Montador::initializeTable() {
-    this->table["HALT"]  = std::make_pair(0, "");
-    this->table["LOAD"]  = std::make_pair(1, "rm");
+    this->table["HALT"] = std::make_pair(0, "");
+    this->table["LOAD"] = std::make_pair(1, "rm");
     this->table["STORE"] = std::make_pair(2, "rm");
-    this->table["READ"]  = std::make_pair(3, "r");
+    this->table["READ"] = std::make_pair(3, "r");
     this->table["WRITE"] = std::make_pair(4, "r");
-    this->table["COPY"]  = std::make_pair(5, "rr");
-    this->table["PUSH"]  = std::make_pair(6, "r");
-    this->table["POP"]   = std::make_pair(7, "r");
-    this->table["ADD"]   = std::make_pair(8, "rr");
-    this->table["SUB"]   = std::make_pair(9, "rr");
-    this->table["MUL"]   = std::make_pair(10, "rr");
-    this->table["DIV"]   = std::make_pair(11, "rr");
-    this->table["MOD"]   = std::make_pair(12, "rr");
-    this->table["AND"]   = std::make_pair(13, "rr");
-    this->table["OR"]    = std::make_pair(14, "rr");
-    this->table["NOT"]   = std::make_pair(15, "r");
-    this->table["JUMP"]  = std::make_pair(16, "m");
-    this->table["JZ"]    = std::make_pair(17, "m");
-    this->table["JN"]    = std::make_pair(18, "m");
-    this->table["CALL"]  = std::make_pair(19, "m");
-    this->table["RET"]   = std::make_pair(20, "");
+    this->table["COPY"] = std::make_pair(5, "rr");
+    this->table["PUSH"] = std::make_pair(6, "r");
+    this->table["POP"] = std::make_pair(7, "r");
+    this->table["ADD"] = std::make_pair(8, "rr");
+    this->table["SUB"] = std::make_pair(9, "rr");
+    this->table["MUL"] = std::make_pair(10, "rr");
+    this->table["DIV"] = std::make_pair(11, "rr");
+    this->table["MOD"] = std::make_pair(12, "rr");
+    this->table["AND"] = std::make_pair(13, "rr");
+    this->table["OR"] = std::make_pair(14, "rr");
+    this->table["NOT"] = std::make_pair(15, "r");
+    this->table["JUMP"] = std::make_pair(16, "m");
+    this->table["JZ"] = std::make_pair(17, "m");
+    this->table["JN"] = std::make_pair(18, "m");
+    this->table["CALL"] = std::make_pair(19, "m");
+    this->table["RET"] = std::make_pair(20, "");
 }
 
-bool Montador::isInstruction(std::string line) {
-    std::string token = line.substr(0, line.find(' '));
-    if (this->table.find(token) != this->table.end())
-        return true;
+bool Montador::isInstruction(std::string token) {
+    return this->table.find(token) != this->table.end();
+}
+
+bool Montador::isLabel(std::string token) {
+    return token[token.size() - 1] == ':';
+}
+
+void Montador::printProgram() {
+    std::cout << this->program[0];
+    for (size_t i = 1; i < this->program.size(); i++)
+        std::cout << " " << this->program[i];
     
-    return false;
-}
-
-bool Montador::isLabel(std::string line) {
-    if (line.find(':') != std::string::npos)
-        return true;
-    
-    return false;
-}
-
-void Montador::printRegister(std::string r)
-{
-    if (r == "R0")
-        std::cout << "0 ";
-    else if (r == "R1")
-        std::cout << "1 ";
-    else if (r == "R2")
-        std::cout << "2 ";
-    else if (r == "R3")
-        std::cout << "3 ";
-}
-
-void Montador::printMemory(std::string m) {
-    std::cout << this->labels[m] << " ";
-}
-
-void Montador::printInstruction(std::string instruction) {
-    std::string token;
-    std::stringstream ss(instruction);
-    std::cout << "instruction: " << instruction << std::endl; //printing instruction for debug purposes
-
-    //printing instruction code
-    ss >> token;
-    std::cout << this->table[token].first << " ";
-
-    //printing rest of instruction based on its formula
-    if (this->table[token].second == "r") {
-        ss >> token;
-        this->printRegister(token);
-    }
-    if (this->table[token].second == "rr") {
-        ss >> token;
-        this->printRegister(token);
-        ss >> token;
-        this->printRegister(token);
-    }
-    if (this->table[token].second == "rm") {
-        ss >> token;
-        this->printRegister(token);
-        ss >> token;
-        this->printMemory(token);
-    }
-    if (this->table[token].second == "m") {
-        ss >> token;
-        this->printMemory(token);
-    }
-
     std::cout << std::endl;
+}
+
+int Montador::getMemoryLocation(std::string token) {
+    return this->labels[token];
+}
+
+int Montador::getRegisterCode(std::string token) {
+    return token[1] - '0';
+}
+
+void Montador::translateInstruction(std::string instruction) {
+    std::string token, instruction_format;
+    std::stringstream ss(instruction);
+    // std::cout << "instruction: " << instruction << std::endl; //printing instruction for debug purposes
+
+    // Retrieving instruction code
+    ss >> token;
+    instruction_format = this->getInstructionOperands(token);
+    this->program.push_back(this->getInstructionCode(token));
+
+    if (instruction_format == "m") {
+        ss >> token;
+        this->program.push_back(this->getMemoryLocation(token));
+    }
+
+    else if (instruction_format[0] == 'r') {
+        ss >> token;
+        this->program.push_back(this->getRegisterCode(token));
+
+        if (instruction_format[1] == 'r') {
+            ss >> token;
+            this->program.push_back(this->getRegisterCode(token));
+        }
+
+        else if (instruction_format[1] == 'm') {
+            ss >> token;
+            this->program.push_back(this->getMemoryLocation(token));
+        }
+    }
+
+    // std::cout << std::endl; // debug
+}
+
+int Montador::getProgramSize() {
+    return this->program.size();
 }
 
 int Montador::getInstructionCode(std::string instruction) {
@@ -106,32 +102,33 @@ std::string Montador::getInstructionOperands(std::string instruction) {
     return this->table[instruction].second;
 }
 
-int Montador::getLabelMemoryLocation(std::string label) {
-    return this->labels[label];
-}
-
 void Montador::discoverLabels() {
-    const char* cfilename = this->filename.c_str();
+    const char *cfilename = this->filename.c_str();
     std::ifstream infile(cfilename);
-    
+
     std::string line;
-    std::getline(infile, line);
-    
-    size_t instruction_counter = 0;
-    while (line != "END") {
-        // Filtering commentary from line
+    unsigned int counter = 0;
+
+    while (true) {
+        // Reading next line and filtering commentary
+        std::getline(infile, line);
         line = line.substr(0, line.find(';'));
 
-        if (this->isInstruction(line))
-            instruction_counter++;
-        
-        else if (this->isLabel(line)) {
-            std::string label = line.substr(0, line.find(':'));
-            this->labels[label] = ++instruction_counter;
-        }
+        // Retrieving line's first token
+        std::string token;
+        std::stringstream ss(line);
+        ss >> token;
 
-        // Read next line
-        std::getline(infile, line);
+        if (token == "END")
+            break;
+
+        else if (token != "") {
+            counter++;
+            if (this->isLabel(token)) {
+                std::string label = token.substr(0, token.size() - 1);
+                this->labels[label] = counter;
+            }
+        }
     }
 
     infile.close();
@@ -142,20 +139,37 @@ void Montador::translate() {
     std::ifstream infile(cfilename);
 
     std::string line;
-    std::getline(infile, line);
-
-    while (line != "END") {
-        // Filtering commentary from line
+    while (true) {
+        // Reading next line and filtering commentary
+        std::getline(infile, line);
         line = line.substr(0, line.find(';'));
 
-        if (this->isInstruction(line))
-            this->printInstruction(line);
+        // Retriving first token from line
+        std::string token;
+        std::stringstream ss(line);
+        ss >> token;
 
-        else if (this->isLabel(line))
-            std::cout << "label: " << line << std::endl;
+        if (token == "END")
+            break;
 
-        // Read next line
-        std::getline(infile, line);
+        else if (this->isInstruction(token))
+            this->translateInstruction(line);
+
+        else if (this->isLabel(token)) {
+            // std::cout << line << std::endl; // debug
+            ss >> token;
+
+            if (token == "WORD") {
+                ss >> token;
+                this->program.push_back(std::stoi(token));
+                // std::cout << token << std::endl; // debug
+            }
+            
+            else if (this->isInstruction(token)) {
+                size_t start = line.find(':') + 1;
+                this->translateInstruction(line.substr(start, line.size()));
+            }
+        }
     }
 
     infile.close();
