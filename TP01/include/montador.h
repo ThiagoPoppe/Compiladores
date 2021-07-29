@@ -5,6 +5,7 @@
 
 class Montador {
     private:
+        unsigned int counter; 
         std::string filename; // input assembly filename
         std::vector<int> program;
         std::map<std::string, int> labels; // labels memory position table (for step 01)

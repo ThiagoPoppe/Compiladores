@@ -50,7 +50,7 @@ void Montador::printProgram() {
 }
 
 int Montador::getMemoryLocation(std::string token) {
-    return this->labels[token];
+    return this->labels[token] - this->counter;
 }
 
 int Montador::getRegisterCode(std::string token) {
@@ -107,7 +107,7 @@ void Montador::discoverLabels() {
     std::ifstream infile(cfilename);
 
     std::string line;
-    unsigned int counter = 0;
+    this->counter = 0;
 
     while (true) {
         // Reading next line and filtering commentary
@@ -122,12 +122,16 @@ void Montador::discoverLabels() {
         if (token == "END")
             break;
 
-        else if (token != "") {
-            counter++;
-            if (this->isLabel(token)) {
-                std::string label = token.substr(0, token.size() - 1);
-                this->labels[label] = counter;
-            }
+        else if (this->isInstruction(token))
+            this->counter += 1 + this->getInstructionOperands(token).size();
+
+        else if (this->isLabel(token)) {
+            std::string label = token.substr(0, token.size() - 1);
+            this->labels[label] = this->counter++;
+
+            ss >> token;
+            if (this->isInstruction(token))
+                this->counter += this->getInstructionOperands(token).size();
         }
     }
 
@@ -139,6 +143,8 @@ void Montador::translate() {
     std::ifstream infile(cfilename);
 
     std::string line;
+    this->counter = 0;
+
     while (true) {
         // Reading next line and filtering commentary
         std::getline(infile, line);
@@ -152,12 +158,15 @@ void Montador::translate() {
         if (token == "END")
             break;
 
-        else if (this->isInstruction(token))
+        else if (this->isInstruction(token)) {
+            this->counter += 1 + this->getInstructionOperands(token).size();
             this->translateInstruction(line);
-
+        }
+        
         else if (this->isLabel(token)) {
             // std::cout << line << std::endl; // debug
             ss >> token;
+            this->counter++;
 
             if (token == "WORD") {
                 ss >> token;
@@ -166,6 +175,7 @@ void Montador::translate() {
             }
             
             else if (this->isInstruction(token)) {
+                this->counter += this->getInstructionOperands(token).size();
                 size_t start = line.find(':') + 1;
                 this->translateInstruction(line.substr(start, line.size()));
             }
