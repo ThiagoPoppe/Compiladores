@@ -3,8 +3,8 @@
 ###############################################################################
 
 EXT = cpp
-SRCS_EMULADOR = $(patsubst %,%.$(EXT),main vm)
-OBJS_EMULADOR = $(patsubst %,build/%.o,$(basename $(SRCS_EMULADOR)))
+SRCS_VM = $(patsubst %,%.$(EXT),main vm)
+OBJS_VM = $(patsubst %,build/%.o,$(basename $(SRCS_VM)))
 
 ###############################################################################
 ########################### Parametros de Ambiente ############################
@@ -20,16 +20,16 @@ CPPFLAGS = -Iinclude/
 ################################ Executáveis ##################################
 ###############################################################################
 
-all: bin/emulador
+all: bin/vm
 
 ifeq ($(EXT), c)
-bin/emulador: $(OBJS_EMULADOR)
+bin/vm: $(OBJS_VM)
 	@echo "+ Compilando programa \"$@\""
-	@$(CC) $(CCFLAGS) $(OBJS_EMULADOR) -o bin/emulador
+	@$(CC) $(CCFLAGS) $(OBJS_VM) -o bin/vm
 else
-bin/emulador: $(OBJS_EMULADOR)
+bin/vm: $(OBJS_VM)
 	@echo "+ Compilando programa \"$@\""
-	@$(CXX) $(CXXFLAGS) $(OBJS_EMULADOR) -o bin/emulador
+	@$(CXX) $(CXXFLAGS) $(OBJS_VM) -o bin/vm
 endif
 
 ###############################################################################
@@ -51,4 +51,4 @@ endif
 ###############################################################################
 
 clean:
-	rm -f bin/* $(OBJS_EMULADOR)
+	rm -f bin/* $(OBJS_VM)

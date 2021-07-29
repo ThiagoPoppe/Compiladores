@@ -1,20 +1,9 @@
 READ R0
-READ R1
-CALL D
+LOAD R1 const100
+ADD R0 R1
 WRITE R0
 HALT
 
-A: SUB R0 R1
-   RET
-
-B: WORD 100
-C: WORD 200
-
-D: MUL R0 R1
-   RET
-
-sum: ADD R0 R1
-     RET
-
-
+const200: WORD 200
+const100: WORD 100
 END

@@ -16,6 +16,7 @@ static vm::Instruction parse(vm::Machine &m) {
     case vm::Write:
     case vm::Push:
     case vm::Pop:
+    case vm::Not:
     case vm::Jump:
     case vm::JZ:
     case vm::JN:
