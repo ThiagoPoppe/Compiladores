@@ -41,14 +41,6 @@ bool Montador::isLabel(std::string token) {
     return token[token.size() - 1] == ':';
 }
 
-void Montador::printProgram() {
-    std::cout << this->program[0];
-    for (size_t i = 1; i < this->program.size(); i++)
-        std::cout << " " << this->program[i];
-    
-    std::cout << std::endl;
-}
-
 int Montador::getMemoryLocation(std::string token) {
     return this->labels[token] - this->counter;
 }
@@ -90,10 +82,6 @@ void Montador::translateInstruction(std::string instruction) {
     // std::cout << std::endl; // debug
 }
 
-int Montador::getProgramSize() {
-    return this->program.size();
-}
-
 int Montador::getInstructionCode(std::string instruction) {
     return this->table[instruction].first;
 }
@@ -108,6 +96,7 @@ void Montador::discoverLabels() {
 
     std::string line;
     this->counter = 0;
+    bool foundFirstInstruction = false;
 
     while (true) {
         // Reading next line and filtering commentary
@@ -122,9 +111,15 @@ void Montador::discoverLabels() {
         if (token == "END")
             break;
 
-        else if (this->isInstruction(token))
-            this->counter += 1 + this->getInstructionOperands(token).size();
+        else if (this->isInstruction(token)) {
+            if (!foundFirstInstruction) {
+                this->programStart = this->counter;
+                foundFirstInstruction = true;
+            }
 
+            this->counter += 1 + this->getInstructionOperands(token).size();
+        }
+            
         else if (this->isLabel(token)) {
             std::string label = token.substr(0, token.size() - 1);
             this->labels[label] = this->counter++;
@@ -183,4 +178,21 @@ void Montador::translate() {
     }
 
     infile.close();
+}
+
+void Montador::mount() {
+    int load_address = 0;
+    int program_size = this->program.size();
+
+    std::cout << "MV-EXE" << std::endl;
+    std::cout << program_size << " ";
+    std::cout << load_address << " ";
+    std::cout << program_size + 1000 << " ";
+    std::cout << this->programStart << std::endl;
+    
+    std::cout << this->program[0];
+    for (size_t i = 1; i < this->program.size(); i++)
+        std::cout << " " << this->program[i];
+    
+    std::cout << std::endl;
 }

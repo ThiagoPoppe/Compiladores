@@ -11,8 +11,5 @@ int main(int argc, char *argv[]) {
     Montador m = Montador(argv[1]);
     m.discoverLabels();
     m.translate();
-
-    std::cout << "MV-EXE" << std::endl;
-    std::cout << m.getProgramSize() << " " << "100 999 100" << std::endl;
-    m.printProgram();
+    m.mount();
 }

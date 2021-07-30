@@ -1,0 +1,28 @@
+; R0 -> Valor atual
+; R1 -> Maior valor
+; R2 -> R2 = 1 (auxilar para decremento do contador)
+; R3 -> Valor de N (contador)
+
+const1: WORD 1
+
+LOAD R2 const1 ; R2 = 1
+READ R3        ; lendo N
+READ R0
+
+bigger: COPY R1 R0 ; Salvando o maior em R1
+
+loop: SUB R3 R2  ; contador = contador - 1
+      JZ end     ; Pulamos para o final se o contador zerar
+
+      READ R0
+
+      SUB R1 R0
+      JN  bigger ; verificamos se R0 > R1 
+      ADD R1 R0  ; restauramos o valor de R1 antes do SUB
+
+      JUMP loop
+
+end: WRITE R1
+     HALT
+
+END

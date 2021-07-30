@@ -1,9 +1,14 @@
+const100: WORD 100
+const200: WORD 200
+const300: WORD 300
+
 READ R0
 LOAD R1 const100
-ADD R0 R1
+CALL add
 WRITE R0
 HALT
 
-const200: WORD 200
-const100: WORD 100
+add: ADD R0 R1
+     RET
+
 END

@@ -6,6 +6,7 @@
 class Montador {
     private:
         unsigned int counter; 
+        unsigned int programStart;
         std::string filename; // input assembly filename
         std::vector<int> program;
         std::map<std::string, int> labels; // labels memory position table (for step 01)
@@ -30,9 +31,7 @@ class Montador {
 
         void discoverLabels(); // first assembly step
         void translate(); // second assembly step
-
-        int getProgramSize();
-        void printProgram();
+        void mount(); // mounts the program
 };
 
 #endif

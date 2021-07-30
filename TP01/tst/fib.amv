@@ -1,0 +1,63 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                             ;;;
+;;;   Programa para o cálculo de Fibonacci(N)   ;;;
+;;;                                             ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; R0 -> guardar o valor de N
+; R1 -> guardar o valor de a, inicialmente Fib(0) = 0
+; R2 -> guardar o valor de b, inicialmente Fib(1) = 1
+; R3 -> registrador para operações auxiliares
+; Obs.: o registrador R2 será a resposta do Fib(N)
+
+READ  R0         ; lendo o valor de N
+STORE R0 aux     ; guardando o valor de N
+
+LOAD R3 const1
+SUB  R0 R3
+JZ   print_fib1  ; se N = 1 printamos Fib(1) = 0
+
+LOAD R3 const1
+SUB  R0 R3
+JZ   print_fib2  ; se N = 2 printamos Fib(2) = 1
+
+LOAD R3 const2
+LOAD R0 aux
+SUB  R0 R3       ; teremos que realizar o loop N-2 vezes
+JN   print_error ; se N-2 < 0, terminamos em erro
+
+LOAD R1 const0 ; carregando A = 0
+LOAD R2 const1 ; carregando B = 1
+LOAD R3 const1 ; fazendo com que R3 = 1
+
+fib: STORE R2 aux ; guardando o valor de B
+     ADD   R2 R1  ; fazendo B = A + B (próximo Fib)
+     LOAD  R1 aux ; fazendo A = B
+
+     SUB  R0 R3 ; decrementando N e verificando se paramos
+     JZ   print_fibN
+     JUMP fib
+
+print_error: LOAD  R3 error
+             WRITE R3
+             HALT
+
+print_fib1: LOAD  R3 const0
+            WRITE R3
+            HALT
+
+print_fib2: LOAD  R3 const1
+            WRITE R3
+            HALT
+
+print_fibN: WRITE R2
+            HALT
+
+error:  WORD -1
+const0: WORD  0
+const1: WORD  1
+const2: WORD  2
+
+aux: WORD 0
+
+END
