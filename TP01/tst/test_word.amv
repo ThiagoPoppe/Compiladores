@@ -1,0 +1,20 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                                     ;;;
+;;;   Programa para testar código que começa com WORD   ;;;
+;;;                                                     ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+const100: WORD 100
+const200: WORD 200
+const300: WORD 300
+
+READ R0
+LOAD R1 const100
+CALL add
+WRITE R0
+HALT
+
+add: ADD R0 R1
+     RET
+
+END
