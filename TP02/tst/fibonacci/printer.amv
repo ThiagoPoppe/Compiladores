@@ -1,0 +1,28 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                             ;;;
+;;;   Programa para o cálculo de Fibonacci(N)   ;;;
+;;;                                             ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; R0 -> guardar o valor de N
+; R1 -> guardar o valor de a, inicialmente Fib(0) = 0
+; R2 -> guardar o valor de b, inicialmente Fib(1) = 1
+; R3 -> registrador para operações auxiliares
+; Obs.: o registrador R2 será a resposta do Fib(N)
+
+print_error: LOAD  R3 error
+             WRITE R3
+             HALT
+
+print_fib1: LOAD  R3 const0
+            WRITE R3
+            HALT
+
+print_fib2: LOAD  R3 const1
+            WRITE R3
+            HALT
+
+print_fibN: WRITE R2
+            HALT
+
+END

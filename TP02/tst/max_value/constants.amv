@@ -1,0 +1,14 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                                   ;;;
+;;;   Programa para encontrar o máximo de N números   ;;;
+;;;                                                   ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; R0 -> Valor atual
+; R1 -> Maior valor
+; R2 -> R2 = 1 (auxilar para decremento do contador)
+; R3 -> Valor de N (contador)
+
+const1: WORD 1
+
+END
