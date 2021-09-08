@@ -85,187 +85,264 @@ int omerrs = 0;               /* number of errors in lexing and parsing */
 %type <formal> formal
 %type <formals> formal_params
 
+%type <case_> case
+%type <cases> case_list
+
 %type <expression> expression
+%type <expression> let_expression
+%type <expressions> expression_list
 %type <expressions> expression_params
 
-/* Precedence declarations go here. */
+/* This terminal will be used to remove the ambiguity of let expressions */
+%token LET_
 
+/* Precedence declarations go here. */
+%right ASSIGN
+%left NOT
+%nonassoc LE '<' '='
+%left '+' '-'
+%left '*' '/'
+%left ISVOID
+%left '~'
+%left '@'
+%left '.'
+%left LET_
 
 %%
-/*
-  Definition of program:
-    - We are going to save the root of the abstract syntax tree in a global variable.
-*/
-program
-  : class_list
-    {
-      @$ = @1;
-      ast_root = program($1);
-    }
-  ;
 
-/*
-  Definition of class_list:
-    - A class list can be either a single class or literally a list of classes.
-*/
-class_list
-  : class
-    {
-      $$ = single_Classes($1);
-      parse_results = $$;
-    }
-  | class_list class
-    {
-      $$ = append_Classes($1, single_Classes($2));
-      parse_results = $$;
-    }
-  ;
+/* --- Defining program non terminal ---  */
+/* We are going to save the root of the abstract syntax tree in a global variable */
+program : class_list {
+    @$ = @1;
+    ast_root = program($1);
+};
 
-/*
-  Definition of a COOL class:
-  - By default, a COOL class will inherit from Object.
-  - But, it can optionally inherit from another class.
+/* --- Defining class_list non terminal --- */
+class_list : class ';' {
+    /* a single class */
+    $$ = single_Classes($1);
+    parse_results = $$;
+}
+| class_list class ';' {
+    /* at least one class */
+    $$ = append_Classes($1, single_Classes($2));
+    parse_results = $$;
+}
+| class_list error ';' { /* if a class is incorrect we can still process other ones */ };
 
-  Note that a COOL class must terminate with a ;
-*/
-class
-  : CLASS TYPEID '{' feature_list '}' ';'
-    {
-      $$ = class_($2, idtable.add_string("Object"), $4, stringtable.add_string(curr_filename));
-    }
-  | CLASS TYPEID INHERITS TYPEID '{' feature_list '}' ';'
-    {
-      $$ = class_($2, $4, $6, stringtable.add_string(curr_filename));
-    }
-  ;
+/* --- Defining class non terminal --- */
+class : CLASS TYPEID '{' feature_list '}' {
+    /* by default a COOL class will inherit from Object */
+    Entry *object = idtable.add_string((char*) "Object");
+    $$ = class_($2, object, $4, stringtable.add_string(curr_filename));
+}
+| CLASS TYPEID INHERITS TYPEID '{' feature_list '}' {
+    $$ = class_($2, $4, $6, stringtable.add_string(curr_filename));
+};
 
-/*
-  Definition of a COOL feature list:
-    - We can have a list of 1 or more features.
-    - Or we can have no features!
-*/
-feature_list
-  : feature_list feature
-    {
-      $$ = append_Features($1, single_Features($2));
-    }
-  | /* empty */
-    {
-      $$ = nil_Features();
-    }
-  ;
+/* --- Defining feature_list non terminal --- */
+feature_list : feature_list feature ';' {
+    $$ = append_Features($1, single_Features($2));
+}
+| /* empty list */ {
+    $$ = nil_Features();
+}
+| feature_list error ';' { /* if a feature is incorrect we can still process other ones */ };
 
-/*
-  Definition of a COOL feature:
-    - A feature can either be a method or an attribution.
-    - Notice that the attribution can optionally have an assignment.
+/* --- Defining feature non terminal --- */
+feature : OBJECTID '(' formal_params ')' ':' TYPEID '{' expression '}' {
+    /* feature as method */
+    $$ = method($1, $3, $6, $8);
+}
+| OBJECTID ':' TYPEID {
+    /* feature as member declaration */
+    $$ = attr($1, $3, no_expr());
+}
+| OBJECTID ':' TYPEID ASSIGN expression {
+    /* feature as member declaration and assign */
+    $$ = attr($1, $3, $5);
+};
 
-  Note that a COOL feature must terminate with a ;
-*/
-feature
-  : OBJECTID '(' formal_params ')' ':' TYPEID '{' expression '}' ';'
-    {
-      $$ = method($1, $3, $6, $8) ;
-    }
-  | OBJECTID ':' TYPEID ';'
-    {
-      $$ = attr($1, $3, no_expr());
-    }
-  | OBJECTID ':' TYPEID ASSIGN expression ';'
-    {
-      $$ = attr($1, $3, $5);
-    }
-  ;
+/* --- Defining formal_params non terminal --- */
+formal_params : formal {
+    /* single formal */
+    $$ = single_Formals($1);
+}
+| formal_params ',' formal {
+    /* multiple formals (separated by ',') */
+    $$ = append_Formals($1, single_Formals($3));
+}
+| /* empty list */ {
+    $$ = nil_Formals();
+};
 
-/*
-  Definition of a formal list:
-    - We can have only one formal.
-    - If we have more than one, we must separate them by ','.
-    - Notice that we can also have an empty list!!
-*/
-formal_params
-  : formal
-    {
-      $$ = single_Formals($1);
-    }
-  | formal_params ',' formal
-    {
-      $$ = append_Formals($1, single_Formals($3));
-    }
-  | /* empty */
-    {
-      $$ = nil_Formals();
-    }
-  ;
+/* --- Defining formal non terminal --- */
+formal : OBJECTID ':' TYPEID {
+    $$ = formal($1, $3);
+};
 
-/* Definition of a formal */
-formal
-  : OBJECTID ':' TYPEID
-    {
-      $$ = formal($1, $3);
-    }
-  ;
+/* --- Defining expression non terminal --- */
+expression : OBJECTID ASSIGN expression {
+    /* assign expression */
+    $$ = assign($1, $3);
+}
+| expression '.' OBJECTID '(' expression_params ')' {
+    /* non static dispatch */
+    $$ = dispatch($1, $3, $5);
+}
+| expression '@' TYPEID '.' OBJECTID '(' expression_params ')' {
+    /* static dispatch */
+    $$ = static_dispatch($1, $3, $5, $7);
+}
+| OBJECTID '(' expression_params ')' {
+    /* method call */
+    Entry *self = idtable.add_string((char*) "self");
+    $$ = dispatch(object(self), $1, $3);
+}
+| IF expression THEN expression ELSE expression FI {
+    /* conditional expression */
+    $$ = cond($2, $4, $6);
+}
+| WHILE expression LOOP expression POOL {
+    /* loop expression */
+    $$ = loop($2, $4);
+}
+| '{' expression_list '}' {
+    /* block of expressions */
+    $$ = block($2);
+}
+| LET let_expression {
+    /* let_expression is an auxiliar non terminal */
+    $$ = $2;
+}
+| CASE expression OF case_list ESAC {
+    /* case expression */
+    $$ = typcase($2, $4);
+}
+| NEW TYPEID {
+    /* new expression */
+    $$ = new_($2);
+}
+| ISVOID expression {
+    /* isvoid expression */
+    $$ = isvoid($2);
+}
+| expression '+' expression {
+    /* plus expression */
+    $$ = plus($1, $3);
+}
+| expression '-' expression {
+    /* sub expression */
+    $$ = sub($1, $3);
+}
+| expression '*' expression {
+    /* mul expression */
+    $$ = mul($1, $3);
+}
+| expression '/' expression {
+    /* divide expression */
+    $$ = divide($1, $3);
+}
+| '~' expression {
+    /* integer compliment expression */
+    $$ = neg($2);
+}
+| expression '<' expression {
+    /* less than expression */
+    $$ = lt($1, $3);
+}
+| expression LE expression {
+    /* less than or equal expression */
+    $$ = leq($1, $3);
+}
+| expression '=' expression {
+    /* equality expression */
+    $$ = eq($1, $3);
+}
+| NOT expression {
+    /* boolean compliment expression */
+    $$ = comp($2);
+}
+| '(' expression ')' {
+    $$ = $2;
+}
+| OBJECTID {
+    /* expression as an ID */
+    $$ = object($1);
+}
+| INT_CONST {
+    /* expression as an integer constant */
+    $$ = int_const($1);
+}
+| STR_CONST {
+    /* expression as a string constant */
+    $$ = string_const($1);
+}
+| BOOL_CONST {
+    /* expression as a boolean constant */
+    $$ = bool_const($1);
+};
 
-/*
-  Definition of a COOL expression:
-    1. An expression can be an assign.
-    2. Can be a dispatch.
-    3. Can be a static dispatch.
-    4. Can be a method call.
-*/
-expression
-  : OBJECTID ASSIGN expression
-    {
-      $$ = assign($1, $3);
-    }
-  | expression '.' OBJECTID '(' expression_params ')'
-    {
-      $$ = dispatch($1, $3, $5);
-    }
-  | expression '@' TYPEID '.' OBJECTID '(' expression_params ')'
-    {
-      $$ = static_dispatch($1, $3, $5, $7);
-    }
-  | OBJECTID '(' expression_params ')'
-    {
-      $$ = dispatch(no_expr(), $1, $3);
-    }
-  | NEW TYPEID
-    {
-      $$ = new_($2);
-    }
-  | OBJECTID
-    {
-      $$ = object($1);
-    }
-  | STR_CONST
-    {
-      $$ = string_const($1);
-    }
-  ;
+/* --- Defining case non terminal --- */
+case : OBJECTID ':' TYPEID DARROW expression {
+    $$ = branch($1, $3, $5);
+};
 
-/*
-  Definition of expression parameters.
-    - We can have only one expression.
-    - If we have more than one, we must separate them by ','.
-    - Notice that we can also have an empty list!!
-*/
-expression_params
-  : expression
-    {
-      $$ = single_Expressions($1);
-    }
-  | expression_params ',' expression
-    {
-      $$ = append_Expressions($1, single_Expressions($3));
-    }
-  | /* empty */
-    {
-      $$ = nil_Expressions();
-    }
-  ;
+/* --- Defining case_list non terminal --- */
+case_list : case ';' {
+    /* single case branch */
+    $$ = single_Cases($1);
+}
+| case_list case ';' {
+    /* multiple case branches */
+    $$ = append_Cases($1, single_Cases($2));
+};
+
+/* --- Defining expression_params non terminal --- */
+expression_params : expression {
+    /* single expression */
+    $$ = single_Expressions($1);
+}
+| expression_params ',' expression {
+    /* multiple expressions (separated by ',') */
+    $$ = append_Expressions($1, single_Expressions($3));
+}
+| /* empty list */ {
+    $$ = nil_Expressions();
+};
+
+/* --- Defining expression_list non terminal --- */
+expression_list : expression ';' {
+    /* single expression */
+    $$ = single_Expressions($1);
+}
+| expression_list expression ';' {
+    /* multiple expressions */
+    $$ = append_Expressions($1, single_Expressions($2));
+}
+| expression_list error ';' { /* if an expression is incorrect we can still process other ones */ };
+
+/* --- Defining let_expression non terminal --- */
+let_expression : OBJECTID ':' TYPEID IN expression %prec LET_ {
+    /* let expression with no initialization */
+    $$ = let($1, $3, no_expr(), $5);
+}
+| OBJECTID ':' TYPEID ASSIGN expression IN expression %prec LET_ {
+    /* let expression with initialization */
+    $$ = let($1, $3, $5, $7);
+}
+| OBJECTID ':' TYPEID ',' let_expression {
+    /* nested let expressions where the first id has no initialization */
+    $$ = let($1, $3, no_expr(), $5);
+}
+| OBJECTID ':' TYPEID ASSIGN expression ',' let_expression {
+    /* nested let expressions where the first id has an initialization */
+    $$ = let($1, $3, $5, $7);
+}
+| error ',' let_expression { /* if a declaration is incorrect we can still process other ones */ };
 
 /* end of grammar */
+
 %%
 
 /* This function is called automatically when Bison detects a parse error. */
@@ -281,4 +358,3 @@ void yyerror(char *s)
 
   if(omerrs>50) {fprintf(stdout, "More than 50 errors\n"); exit(1);}
 }
-
