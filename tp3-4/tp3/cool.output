@@ -1,9 +1,9 @@
-Terminals unused in grammar
+Terminais sem uso na gramática
 
     ERROR
 
 
-Grammar
+Gramática
 
     0 $accept: program $end
 
@@ -76,7 +76,7 @@ Grammar
    55               | error ',' let_expression
 
 
-Terminals, with rules where they appear
+Terminais, com as regras onde eles aparecem
 
     $end (0) 0
     '(' (40) 10 18 19 20 37
@@ -125,606 +125,606 @@ Terminals, with rules where they appear
     LET_ (285)
 
 
-Nonterminals, with rules where they appear
+Não terminais com as regras onde eles aparecem
 
     $accept (46)
-        on left: 0
+        à esquerda: 0
     program <program> (47)
-        on left: 1
-        on right: 0
+        à esquerda: 1
+        à direita: 0
     class_list <classes> (48)
-        on left: 2 3 4
-        on right: 1 3 4
+        à esquerda: 2 3 4
+        à direita: 1 3 4
     class <class_> (49)
-        on left: 5 6
-        on right: 2 3
+        à esquerda: 5 6
+        à direita: 2 3
     feature_list <features> (50)
-        on left: 7 8 9
-        on right: 5 6 7 9
+        à esquerda: 7 8 9
+        à direita: 5 6 7 9
     feature <feature> (51)
-        on left: 10 11 12
-        on right: 7
+        à esquerda: 10 11 12
+        à direita: 7
     formal_params <formals> (52)
-        on left: 13 14 15
-        on right: 10 14
+        à esquerda: 13 14 15
+        à direita: 10 14
     formal <formal> (53)
-        on left: 16
-        on right: 13 14
+        à esquerda: 16
+        à direita: 13 14
     expression <expression> (54)
-        on left: 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
-        on right: 10 12 17 18 19 21 22 25 27 28 29 30 31 32 33 34 35 36 37 42 45 46 48 49 51 52 54
+        à esquerda: 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
+        à direita: 10 12 17 18 19 21 22 25 27 28 29 30 31 32 33 34 35 36 37 42 45 46 48 49 51 52 54
     case <case_> (55)
-        on left: 42
-        on right: 43 44
+        à esquerda: 42
+        à direita: 43 44
     case_list <cases> (56)
-        on left: 43 44
-        on right: 25 44
+        à esquerda: 43 44
+        à direita: 25 44
     expression_params <expressions> (57)
-        on left: 45 46 47
-        on right: 18 19 20 46
+        à esquerda: 45 46 47
+        à direita: 18 19 20 46
     expression_list <expressions> (58)
-        on left: 48 49 50
-        on right: 23 49 50
+        à esquerda: 48 49 50
+        à direita: 23 49 50
     let_expression <expression> (59)
-        on left: 51 52 53 54 55
-        on right: 24 53 54 55
+        à esquerda: 51 52 53 54 55
+        à direita: 24 53 54 55
 
 
-State 0
+Estado 0
 
     0 $accept: . program $end
 
-    CLASS  shift, and go to state 1
+    CLASS  deslocar, e ir ao estado 1
 
-    program     go to state 2
-    class_list  go to state 3
-    class       go to state 4
+    program     ir ao estado 2
+    class_list  ir ao estado 3
+    class       ir ao estado 4
 
 
-State 1
+Estado 1
 
     5 class: CLASS . TYPEID '{' feature_list '}'
     6      | CLASS . TYPEID INHERITS TYPEID '{' feature_list '}'
 
-    TYPEID  shift, and go to state 5
+    TYPEID  deslocar, e ir ao estado 5
 
 
-State 2
+Estado 2
 
     0 $accept: program . $end
 
-    $end  shift, and go to state 6
+    $end  deslocar, e ir ao estado 6
 
 
-State 3
+Estado 3
 
     1 program: class_list .
     3 class_list: class_list . class ';'
     4           | class_list . error ';'
 
-    error  shift, and go to state 7
-    CLASS  shift, and go to state 1
+    error  deslocar, e ir ao estado 7
+    CLASS  deslocar, e ir ao estado 1
 
-    $end  reduce using rule 1 (program)
+    $end  reduzir usando a regra 1 (program)
 
-    class  go to state 8
+    class  ir ao estado 8
 
 
-State 4
+Estado 4
 
     2 class_list: class . ';'
 
-    ';'  shift, and go to state 9
+    ';'  deslocar, e ir ao estado 9
 
 
-State 5
+Estado 5
 
     5 class: CLASS TYPEID . '{' feature_list '}'
     6      | CLASS TYPEID . INHERITS TYPEID '{' feature_list '}'
 
-    INHERITS  shift, and go to state 10
-    '{'       shift, and go to state 11
+    INHERITS  deslocar, e ir ao estado 10
+    '{'       deslocar, e ir ao estado 11
 
 
-State 6
+Estado 6
 
     0 $accept: program $end .
 
-    $default  accept
+    $padrão  aceitar
 
 
-State 7
+Estado 7
 
     4 class_list: class_list error . ';'
 
-    ';'  shift, and go to state 12
+    ';'  deslocar, e ir ao estado 12
 
 
-State 8
+Estado 8
 
     3 class_list: class_list class . ';'
 
-    ';'  shift, and go to state 13
+    ';'  deslocar, e ir ao estado 13
 
 
-State 9
+Estado 9
 
     2 class_list: class ';' .
 
-    $default  reduce using rule 2 (class_list)
+    $padrão  reduzir usando a regra 2 (class_list)
 
 
-State 10
+Estado 10
 
     6 class: CLASS TYPEID INHERITS . TYPEID '{' feature_list '}'
 
-    TYPEID  shift, and go to state 14
+    TYPEID  deslocar, e ir ao estado 14
 
 
-State 11
+Estado 11
 
     5 class: CLASS TYPEID '{' . feature_list '}'
 
-    $default  reduce using rule 8 (feature_list)
+    $padrão  reduzir usando a regra 8 (feature_list)
 
-    feature_list  go to state 15
+    feature_list  ir ao estado 15
 
 
-State 12
+Estado 12
 
     4 class_list: class_list error ';' .
 
-    $default  reduce using rule 4 (class_list)
+    $padrão  reduzir usando a regra 4 (class_list)
 
 
-State 13
+Estado 13
 
     3 class_list: class_list class ';' .
 
-    $default  reduce using rule 3 (class_list)
+    $padrão  reduzir usando a regra 3 (class_list)
 
 
-State 14
+Estado 14
 
     6 class: CLASS TYPEID INHERITS TYPEID . '{' feature_list '}'
 
-    '{'  shift, and go to state 16
+    '{'  deslocar, e ir ao estado 16
 
 
-State 15
+Estado 15
 
     5 class: CLASS TYPEID '{' feature_list . '}'
     7 feature_list: feature_list . feature ';'
     9             | feature_list . error ';'
 
-    error     shift, and go to state 17
-    OBJECTID  shift, and go to state 18
-    '}'       shift, and go to state 19
+    error     deslocar, e ir ao estado 17
+    OBJECTID  deslocar, e ir ao estado 18
+    '}'       deslocar, e ir ao estado 19
 
-    feature  go to state 20
+    feature  ir ao estado 20
 
 
-State 16
+Estado 16
 
     6 class: CLASS TYPEID INHERITS TYPEID '{' . feature_list '}'
 
-    $default  reduce using rule 8 (feature_list)
+    $padrão  reduzir usando a regra 8 (feature_list)
 
-    feature_list  go to state 21
+    feature_list  ir ao estado 21
 
 
-State 17
+Estado 17
 
     9 feature_list: feature_list error . ';'
 
-    ';'  shift, and go to state 22
+    ';'  deslocar, e ir ao estado 22
 
 
-State 18
+Estado 18
 
    10 feature: OBJECTID . '(' formal_params ')' ':' TYPEID '{' expression '}'
    11        | OBJECTID . ':' TYPEID
    12        | OBJECTID . ':' TYPEID ASSIGN expression
 
-    '('  shift, and go to state 23
-    ':'  shift, and go to state 24
+    '('  deslocar, e ir ao estado 23
+    ':'  deslocar, e ir ao estado 24
 
 
-State 19
+Estado 19
 
     5 class: CLASS TYPEID '{' feature_list '}' .
 
-    $default  reduce using rule 5 (class)
+    $padrão  reduzir usando a regra 5 (class)
 
 
-State 20
+Estado 20
 
     7 feature_list: feature_list feature . ';'
 
-    ';'  shift, and go to state 25
+    ';'  deslocar, e ir ao estado 25
 
 
-State 21
+Estado 21
 
     6 class: CLASS TYPEID INHERITS TYPEID '{' feature_list . '}'
     7 feature_list: feature_list . feature ';'
     9             | feature_list . error ';'
 
-    error     shift, and go to state 17
-    OBJECTID  shift, and go to state 18
-    '}'       shift, and go to state 26
+    error     deslocar, e ir ao estado 17
+    OBJECTID  deslocar, e ir ao estado 18
+    '}'       deslocar, e ir ao estado 26
 
-    feature  go to state 20
+    feature  ir ao estado 20
 
 
-State 22
+Estado 22
 
     9 feature_list: feature_list error ';' .
 
-    $default  reduce using rule 9 (feature_list)
+    $padrão  reduzir usando a regra 9 (feature_list)
 
 
-State 23
+Estado 23
 
    10 feature: OBJECTID '(' . formal_params ')' ':' TYPEID '{' expression '}'
 
-    OBJECTID  shift, and go to state 27
+    OBJECTID  deslocar, e ir ao estado 27
 
-    $default  reduce using rule 15 (formal_params)
+    $padrão  reduzir usando a regra 15 (formal_params)
 
-    formal_params  go to state 28
-    formal         go to state 29
+    formal_params  ir ao estado 28
+    formal         ir ao estado 29
 
 
-State 24
+Estado 24
 
    11 feature: OBJECTID ':' . TYPEID
    12        | OBJECTID ':' . TYPEID ASSIGN expression
 
-    TYPEID  shift, and go to state 30
+    TYPEID  deslocar, e ir ao estado 30
 
 
-State 25
+Estado 25
 
     7 feature_list: feature_list feature ';' .
 
-    $default  reduce using rule 7 (feature_list)
+    $padrão  reduzir usando a regra 7 (feature_list)
 
 
-State 26
+Estado 26
 
     6 class: CLASS TYPEID INHERITS TYPEID '{' feature_list '}' .
 
-    $default  reduce using rule 6 (class)
+    $padrão  reduzir usando a regra 6 (class)
 
 
-State 27
+Estado 27
 
    16 formal: OBJECTID . ':' TYPEID
 
-    ':'  shift, and go to state 31
+    ':'  deslocar, e ir ao estado 31
 
 
-State 28
+Estado 28
 
    10 feature: OBJECTID '(' formal_params . ')' ':' TYPEID '{' expression '}'
    14 formal_params: formal_params . ',' formal
 
-    ')'  shift, and go to state 32
-    ','  shift, and go to state 33
+    ')'  deslocar, e ir ao estado 32
+    ','  deslocar, e ir ao estado 33
 
 
-State 29
+Estado 29
 
    13 formal_params: formal .
 
-    $default  reduce using rule 13 (formal_params)
+    $padrão  reduzir usando a regra 13 (formal_params)
 
 
-State 30
+Estado 30
 
    11 feature: OBJECTID ':' TYPEID .
    12        | OBJECTID ':' TYPEID . ASSIGN expression
 
-    ASSIGN  shift, and go to state 34
+    ASSIGN  deslocar, e ir ao estado 34
 
-    $default  reduce using rule 11 (feature)
+    $padrão  reduzir usando a regra 11 (feature)
 
 
-State 31
+Estado 31
 
    16 formal: OBJECTID ':' . TYPEID
 
-    TYPEID  shift, and go to state 35
+    TYPEID  deslocar, e ir ao estado 35
 
 
-State 32
+Estado 32
 
    10 feature: OBJECTID '(' formal_params ')' . ':' TYPEID '{' expression '}'
 
-    ':'  shift, and go to state 36
+    ':'  deslocar, e ir ao estado 36
 
 
-State 33
+Estado 33
 
    14 formal_params: formal_params ',' . formal
 
-    OBJECTID  shift, and go to state 27
+    OBJECTID  deslocar, e ir ao estado 27
 
-    formal  go to state 37
+    formal  ir ao estado 37
 
 
-State 34
+Estado 34
 
    12 feature: OBJECTID ':' TYPEID ASSIGN . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 52
+    expression  ir ao estado 52
 
 
-State 35
+Estado 35
 
    16 formal: OBJECTID ':' TYPEID .
 
-    $default  reduce using rule 16 (formal)
+    $padrão  reduzir usando a regra 16 (formal)
 
 
-State 36
+Estado 36
 
    10 feature: OBJECTID '(' formal_params ')' ':' . TYPEID '{' expression '}'
 
-    TYPEID  shift, and go to state 53
+    TYPEID  deslocar, e ir ao estado 53
 
 
-State 37
+Estado 37
 
    14 formal_params: formal_params ',' formal .
 
-    $default  reduce using rule 14 (formal_params)
+    $padrão  reduzir usando a regra 14 (formal_params)
 
 
-State 38
+Estado 38
 
    21 expression: IF . expression THEN expression ELSE expression FI
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 54
+    expression  ir ao estado 54
 
 
-State 39
+Estado 39
 
    24 expression: LET . let_expression
 
-    error     shift, and go to state 55
-    OBJECTID  shift, and go to state 56
+    error     deslocar, e ir ao estado 55
+    OBJECTID  deslocar, e ir ao estado 56
 
-    let_expression  go to state 57
+    let_expression  ir ao estado 57
 
 
-State 40
+Estado 40
 
    22 expression: WHILE . expression LOOP expression POOL
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 58
+    expression  ir ao estado 58
 
 
-State 41
+Estado 41
 
    25 expression: CASE . expression OF case_list ESAC
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 59
+    expression  ir ao estado 59
 
 
-State 42
+Estado 42
 
    26 expression: NEW . TYPEID
 
-    TYPEID  shift, and go to state 60
+    TYPEID  deslocar, e ir ao estado 60
 
 
-State 43
+Estado 43
 
    27 expression: ISVOID . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 61
+    expression  ir ao estado 61
 
 
-State 44
+Estado 44
 
    40 expression: STR_CONST .
 
-    $default  reduce using rule 40 (expression)
+    $padrão  reduzir usando a regra 40 (expression)
 
 
-State 45
+Estado 45
 
    39 expression: INT_CONST .
 
-    $default  reduce using rule 39 (expression)
+    $padrão  reduzir usando a regra 39 (expression)
 
 
-State 46
+Estado 46
 
    41 expression: BOOL_CONST .
 
-    $default  reduce using rule 41 (expression)
+    $padrão  reduzir usando a regra 41 (expression)
 
 
-State 47
+Estado 47
 
    17 expression: OBJECTID . ASSIGN expression
    20           | OBJECTID . '(' expression_params ')'
    38           | OBJECTID .
 
-    ASSIGN  shift, and go to state 62
-    '('     shift, and go to state 63
+    ASSIGN  deslocar, e ir ao estado 62
+    '('     deslocar, e ir ao estado 63
 
-    $default  reduce using rule 38 (expression)
+    $padrão  reduzir usando a regra 38 (expression)
 
 
-State 48
+Estado 48
 
    36 expression: NOT . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 64
+    expression  ir ao estado 64
 
 
-State 49
+Estado 49
 
    32 expression: '~' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 65
+    expression  ir ao estado 65
 
 
-State 50
+Estado 50
 
    23 expression: '{' . expression_list '}'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression       go to state 66
-    expression_list  go to state 67
+    expression       ir ao estado 66
+    expression_list  ir ao estado 67
 
 
-State 51
+Estado 51
 
    37 expression: '(' . expression ')'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 68
+    expression  ir ao estado 68
 
 
-State 52
+Estado 52
 
    12 feature: OBJECTID ':' TYPEID ASSIGN expression .
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
@@ -737,27 +737,27 @@ State 52
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 12 (feature)
+    $padrão  reduzir usando a regra 12 (feature)
 
 
-State 53
+Estado 53
 
    10 feature: OBJECTID '(' formal_params ')' ':' TYPEID . '{' expression '}'
 
-    '{'  shift, and go to state 78
+    '{'  deslocar, e ir ao estado 78
 
 
-State 54
+Estado 54
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -770,43 +770,43 @@ State 54
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    THEN  shift, and go to state 79
-    LE    shift, and go to state 69
-    '<'   shift, and go to state 70
-    '='   shift, and go to state 71
-    '+'   shift, and go to state 72
-    '-'   shift, and go to state 73
-    '*'   shift, and go to state 74
-    '/'   shift, and go to state 75
-    '@'   shift, and go to state 76
-    '.'   shift, and go to state 77
+    THEN  deslocar, e ir ao estado 79
+    LE    deslocar, e ir ao estado 69
+    '<'   deslocar, e ir ao estado 70
+    '='   deslocar, e ir ao estado 71
+    '+'   deslocar, e ir ao estado 72
+    '-'   deslocar, e ir ao estado 73
+    '*'   deslocar, e ir ao estado 74
+    '/'   deslocar, e ir ao estado 75
+    '@'   deslocar, e ir ao estado 76
+    '.'   deslocar, e ir ao estado 77
 
 
-State 55
+Estado 55
 
    55 let_expression: error . ',' let_expression
 
-    ','  shift, and go to state 80
+    ','  deslocar, e ir ao estado 80
 
 
-State 56
+Estado 56
 
    51 let_expression: OBJECTID . ':' TYPEID IN expression
    52               | OBJECTID . ':' TYPEID ASSIGN expression IN expression
    53               | OBJECTID . ':' TYPEID ',' let_expression
    54               | OBJECTID . ':' TYPEID ASSIGN expression ',' let_expression
 
-    ':'  shift, and go to state 81
+    ':'  deslocar, e ir ao estado 81
 
 
-State 57
+Estado 57
 
    24 expression: LET let_expression .
 
-    $default  reduce using rule 24 (expression)
+    $padrão  reduzir usando a regra 24 (expression)
 
 
-State 58
+Estado 58
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -819,19 +819,19 @@ State 58
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    LOOP  shift, and go to state 82
-    LE    shift, and go to state 69
-    '<'   shift, and go to state 70
-    '='   shift, and go to state 71
-    '+'   shift, and go to state 72
-    '-'   shift, and go to state 73
-    '*'   shift, and go to state 74
-    '/'   shift, and go to state 75
-    '@'   shift, and go to state 76
-    '.'   shift, and go to state 77
+    LOOP  deslocar, e ir ao estado 82
+    LE    deslocar, e ir ao estado 69
+    '<'   deslocar, e ir ao estado 70
+    '='   deslocar, e ir ao estado 71
+    '+'   deslocar, e ir ao estado 72
+    '-'   deslocar, e ir ao estado 73
+    '*'   deslocar, e ir ao estado 74
+    '/'   deslocar, e ir ao estado 75
+    '@'   deslocar, e ir ao estado 76
+    '.'   deslocar, e ir ao estado 77
 
 
-State 59
+Estado 59
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -844,26 +844,26 @@ State 59
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    OF   shift, and go to state 83
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    OF   deslocar, e ir ao estado 83
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
 
-State 60
+Estado 60
 
    26 expression: NEW TYPEID .
 
-    $default  reduce using rule 26 (expression)
+    $padrão  reduzir usando a regra 26 (expression)
 
 
-State 61
+Estado 61
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -876,60 +876,60 @@ State 61
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 27 (expression)
+    $padrão  reduzir usando a regra 27 (expression)
 
 
-State 62
+Estado 62
 
    17 expression: OBJECTID ASSIGN . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 84
+    expression  ir ao estado 84
 
 
-State 63
+Estado 63
 
    20 expression: OBJECTID '(' . expression_params ')'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    $default  reduce using rule 47 (expression_params)
+    $padrão  reduzir usando a regra 47 (expression_params)
 
-    expression         go to state 85
-    expression_params  go to state 86
+    expression         ir ao estado 85
+    expression_params  ir ao estado 86
 
 
-State 64
+Estado 64
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -942,20 +942,20 @@ State 64
    35           | expression . '=' expression
    36           | NOT expression .
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 36 (expression)
+    $padrão  reduzir usando a regra 36 (expression)
 
 
-State 65
+Estado 65
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -968,13 +968,13 @@ State 65
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 32 (expression)
+    $padrão  reduzir usando a regra 32 (expression)
 
 
-State 66
+Estado 66
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -987,45 +987,45 @@ State 66
    35           | expression . '=' expression
    48 expression_list: expression . ';'
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
-    ';'  shift, and go to state 87
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+    ';'  deslocar, e ir ao estado 87
 
 
-State 67
+Estado 67
 
    23 expression: '{' expression_list . '}'
    49 expression_list: expression_list . expression ';'
    50                | expression_list . error ';'
 
-    error       shift, and go to state 88
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '}'         shift, and go to state 89
-    '('         shift, and go to state 51
+    error       deslocar, e ir ao estado 88
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '}'         deslocar, e ir ao estado 89
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 90
+    expression  ir ao estado 90
 
 
-State 68
+Estado 68
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1038,283 +1038,283 @@ State 68
    35           | expression . '=' expression
    37           | '(' expression . ')'
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
-    ')'  shift, and go to state 91
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+    ')'  deslocar, e ir ao estado 91
 
 
-State 69
+Estado 69
 
    34 expression: expression LE . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 92
+    expression  ir ao estado 92
 
 
-State 70
+Estado 70
 
    33 expression: expression '<' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 93
+    expression  ir ao estado 93
 
 
-State 71
+Estado 71
 
    35 expression: expression '=' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 94
+    expression  ir ao estado 94
 
 
-State 72
+Estado 72
 
    28 expression: expression '+' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 95
+    expression  ir ao estado 95
 
 
-State 73
+Estado 73
 
    29 expression: expression '-' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 96
+    expression  ir ao estado 96
 
 
-State 74
+Estado 74
 
    30 expression: expression '*' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 97
+    expression  ir ao estado 97
 
 
-State 75
+Estado 75
 
    31 expression: expression '/' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 98
+    expression  ir ao estado 98
 
 
-State 76
+Estado 76
 
    19 expression: expression '@' . TYPEID '.' OBJECTID '(' expression_params ')'
 
-    TYPEID  shift, and go to state 99
+    TYPEID  deslocar, e ir ao estado 99
 
 
-State 77
+Estado 77
 
    18 expression: expression '.' . OBJECTID '(' expression_params ')'
 
-    OBJECTID  shift, and go to state 100
+    OBJECTID  deslocar, e ir ao estado 100
 
 
-State 78
+Estado 78
 
    10 feature: OBJECTID '(' formal_params ')' ':' TYPEID '{' . expression '}'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 101
+    expression  ir ao estado 101
 
 
-State 79
+Estado 79
 
    21 expression: IF expression THEN . expression ELSE expression FI
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 102
+    expression  ir ao estado 102
 
 
-State 80
+Estado 80
 
    55 let_expression: error ',' . let_expression
 
-    error     shift, and go to state 55
-    OBJECTID  shift, and go to state 56
+    error     deslocar, e ir ao estado 55
+    OBJECTID  deslocar, e ir ao estado 56
 
-    let_expression  go to state 103
+    let_expression  ir ao estado 103
 
 
-State 81
+Estado 81
 
    51 let_expression: OBJECTID ':' . TYPEID IN expression
    52               | OBJECTID ':' . TYPEID ASSIGN expression IN expression
    53               | OBJECTID ':' . TYPEID ',' let_expression
    54               | OBJECTID ':' . TYPEID ASSIGN expression ',' let_expression
 
-    TYPEID  shift, and go to state 104
+    TYPEID  deslocar, e ir ao estado 104
 
 
-State 82
+Estado 82
 
    22 expression: WHILE expression LOOP . expression POOL
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 105
+    expression  ir ao estado 105
 
 
-State 83
+Estado 83
 
    25 expression: CASE expression OF . case_list ESAC
 
-    OBJECTID  shift, and go to state 106
+    OBJECTID  deslocar, e ir ao estado 106
 
-    case       go to state 107
-    case_list  go to state 108
+    case       ir ao estado 107
+    case_list  ir ao estado 108
 
 
-State 84
+Estado 84
 
    17 expression: OBJECTID ASSIGN expression .
    18           | expression . '.' OBJECTID '(' expression_params ')'
@@ -1327,20 +1327,20 @@ State 84
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 17 (expression)
+    $padrão  reduzir usando a regra 17 (expression)
 
 
-State 85
+Estado 85
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1353,50 +1353,50 @@ State 85
    35           | expression . '=' expression
    45 expression_params: expression .
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 45 (expression_params)
+    $padrão  reduzir usando a regra 45 (expression_params)
 
 
-State 86
+Estado 86
 
    20 expression: OBJECTID '(' expression_params . ')'
    46 expression_params: expression_params . ',' expression
 
-    ')'  shift, and go to state 109
-    ','  shift, and go to state 110
+    ')'  deslocar, e ir ao estado 109
+    ','  deslocar, e ir ao estado 110
 
 
-State 87
+Estado 87
 
    48 expression_list: expression ';' .
 
-    $default  reduce using rule 48 (expression_list)
+    $padrão  reduzir usando a regra 48 (expression_list)
 
 
-State 88
+Estado 88
 
    50 expression_list: expression_list error . ';'
 
-    ';'  shift, and go to state 111
+    ';'  deslocar, e ir ao estado 111
 
 
-State 89
+Estado 89
 
    23 expression: '{' expression_list '}' .
 
-    $default  reduce using rule 23 (expression)
+    $padrão  reduzir usando a regra 23 (expression)
 
 
-State 90
+Estado 90
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1409,26 +1409,26 @@ State 90
    35           | expression . '=' expression
    49 expression_list: expression_list expression . ';'
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
-    ';'  shift, and go to state 112
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+    ';'  deslocar, e ir ao estado 112
 
 
-State 91
+Estado 91
 
    37 expression: '(' expression ')' .
 
-    $default  reduce using rule 37 (expression)
+    $padrão  reduzir usando a regra 37 (expression)
 
 
-State 92
+Estado 92
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1441,21 +1441,21 @@ State 92
    34           | expression LE expression .
    35           | expression . '=' expression
 
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    LE   error (nonassociative)
-    '<'  error (nonassociative)
-    '='  error (nonassociative)
+    LE   erro (não associativo)
+    '<'  erro (não associativo)
+    '='  erro (não associativo)
 
-    $default  reduce using rule 34 (expression)
+    $padrão  reduzir usando a regra 34 (expression)
 
 
-State 93
+Estado 93
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1468,21 +1468,21 @@ State 93
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    LE   error (nonassociative)
-    '<'  error (nonassociative)
-    '='  error (nonassociative)
+    LE   erro (não associativo)
+    '<'  erro (não associativo)
+    '='  erro (não associativo)
 
-    $default  reduce using rule 33 (expression)
+    $padrão  reduzir usando a regra 33 (expression)
 
 
-State 94
+Estado 94
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1495,21 +1495,21 @@ State 94
    35           | expression . '=' expression
    35           | expression '=' expression .
 
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    LE   error (nonassociative)
-    '<'  error (nonassociative)
-    '='  error (nonassociative)
+    LE   erro (não associativo)
+    '<'  erro (não associativo)
+    '='  erro (não associativo)
 
-    $default  reduce using rule 35 (expression)
+    $padrão  reduzir usando a regra 35 (expression)
 
 
-State 95
+Estado 95
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1522,15 +1522,15 @@ State 95
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 28 (expression)
+    $padrão  reduzir usando a regra 28 (expression)
 
 
-State 96
+Estado 96
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1543,15 +1543,15 @@ State 96
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 29 (expression)
+    $padrão  reduzir usando a regra 29 (expression)
 
 
-State 97
+Estado 97
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1564,13 +1564,13 @@ State 97
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 30 (expression)
+    $padrão  reduzir usando a regra 30 (expression)
 
 
-State 98
+Estado 98
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1583,27 +1583,27 @@ State 98
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 31 (expression)
+    $padrão  reduzir usando a regra 31 (expression)
 
 
-State 99
+Estado 99
 
    19 expression: expression '@' TYPEID . '.' OBJECTID '(' expression_params ')'
 
-    '.'  shift, and go to state 113
+    '.'  deslocar, e ir ao estado 113
 
 
-State 100
+Estado 100
 
    18 expression: expression '.' OBJECTID . '(' expression_params ')'
 
-    '('  shift, and go to state 114
+    '('  deslocar, e ir ao estado 114
 
 
-State 101
+Estado 101
 
    10 feature: OBJECTID '(' formal_params ')' ':' TYPEID '{' expression . '}'
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
@@ -1616,19 +1616,19 @@ State 101
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
-    '}'  shift, and go to state 115
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+    '}'  deslocar, e ir ao estado 115
 
 
-State 102
+Estado 102
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1641,38 +1641,38 @@ State 102
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    ELSE  shift, and go to state 116
-    LE    shift, and go to state 69
-    '<'   shift, and go to state 70
-    '='   shift, and go to state 71
-    '+'   shift, and go to state 72
-    '-'   shift, and go to state 73
-    '*'   shift, and go to state 74
-    '/'   shift, and go to state 75
-    '@'   shift, and go to state 76
-    '.'   shift, and go to state 77
+    ELSE  deslocar, e ir ao estado 116
+    LE    deslocar, e ir ao estado 69
+    '<'   deslocar, e ir ao estado 70
+    '='   deslocar, e ir ao estado 71
+    '+'   deslocar, e ir ao estado 72
+    '-'   deslocar, e ir ao estado 73
+    '*'   deslocar, e ir ao estado 74
+    '/'   deslocar, e ir ao estado 75
+    '@'   deslocar, e ir ao estado 76
+    '.'   deslocar, e ir ao estado 77
 
 
-State 103
+Estado 103
 
    55 let_expression: error ',' let_expression .
 
-    $default  reduce using rule 55 (let_expression)
+    $padrão  reduzir usando a regra 55 (let_expression)
 
 
-State 104
+Estado 104
 
    51 let_expression: OBJECTID ':' TYPEID . IN expression
    52               | OBJECTID ':' TYPEID . ASSIGN expression IN expression
    53               | OBJECTID ':' TYPEID . ',' let_expression
    54               | OBJECTID ':' TYPEID . ASSIGN expression ',' let_expression
 
-    IN      shift, and go to state 117
-    ASSIGN  shift, and go to state 118
-    ','     shift, and go to state 119
+    IN      deslocar, e ir ao estado 117
+    ASSIGN  deslocar, e ir ao estado 118
+    ','     deslocar, e ir ao estado 119
 
 
-State 105
+Estado 105
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1685,238 +1685,238 @@ State 105
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    POOL  shift, and go to state 120
-    LE    shift, and go to state 69
-    '<'   shift, and go to state 70
-    '='   shift, and go to state 71
-    '+'   shift, and go to state 72
-    '-'   shift, and go to state 73
-    '*'   shift, and go to state 74
-    '/'   shift, and go to state 75
-    '@'   shift, and go to state 76
-    '.'   shift, and go to state 77
+    POOL  deslocar, e ir ao estado 120
+    LE    deslocar, e ir ao estado 69
+    '<'   deslocar, e ir ao estado 70
+    '='   deslocar, e ir ao estado 71
+    '+'   deslocar, e ir ao estado 72
+    '-'   deslocar, e ir ao estado 73
+    '*'   deslocar, e ir ao estado 74
+    '/'   deslocar, e ir ao estado 75
+    '@'   deslocar, e ir ao estado 76
+    '.'   deslocar, e ir ao estado 77
 
 
-State 106
+Estado 106
 
    42 case: OBJECTID . ':' TYPEID DARROW expression
 
-    ':'  shift, and go to state 121
+    ':'  deslocar, e ir ao estado 121
 
 
-State 107
+Estado 107
 
    43 case_list: case . ';'
 
-    ';'  shift, and go to state 122
+    ';'  deslocar, e ir ao estado 122
 
 
-State 108
+Estado 108
 
    25 expression: CASE expression OF case_list . ESAC
    44 case_list: case_list . case ';'
 
-    ESAC      shift, and go to state 123
-    OBJECTID  shift, and go to state 106
+    ESAC      deslocar, e ir ao estado 123
+    OBJECTID  deslocar, e ir ao estado 106
 
-    case  go to state 124
+    case  ir ao estado 124
 
 
-State 109
+Estado 109
 
    20 expression: OBJECTID '(' expression_params ')' .
 
-    $default  reduce using rule 20 (expression)
+    $padrão  reduzir usando a regra 20 (expression)
 
 
-State 110
+Estado 110
 
    46 expression_params: expression_params ',' . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 125
+    expression  ir ao estado 125
 
 
-State 111
+Estado 111
 
    50 expression_list: expression_list error ';' .
 
-    $default  reduce using rule 50 (expression_list)
+    $padrão  reduzir usando a regra 50 (expression_list)
 
 
-State 112
+Estado 112
 
    49 expression_list: expression_list expression ';' .
 
-    $default  reduce using rule 49 (expression_list)
+    $padrão  reduzir usando a regra 49 (expression_list)
 
 
-State 113
+Estado 113
 
    19 expression: expression '@' TYPEID '.' . OBJECTID '(' expression_params ')'
 
-    OBJECTID  shift, and go to state 126
+    OBJECTID  deslocar, e ir ao estado 126
 
 
-State 114
+Estado 114
 
    18 expression: expression '.' OBJECTID '(' . expression_params ')'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    $default  reduce using rule 47 (expression_params)
+    $padrão  reduzir usando a regra 47 (expression_params)
 
-    expression         go to state 85
-    expression_params  go to state 127
+    expression         ir ao estado 85
+    expression_params  ir ao estado 127
 
 
-State 115
+Estado 115
 
    10 feature: OBJECTID '(' formal_params ')' ':' TYPEID '{' expression '}' .
 
-    $default  reduce using rule 10 (feature)
+    $padrão  reduzir usando a regra 10 (feature)
 
 
-State 116
+Estado 116
 
    21 expression: IF expression THEN expression ELSE . expression FI
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 128
+    expression  ir ao estado 128
 
 
-State 117
+Estado 117
 
    51 let_expression: OBJECTID ':' TYPEID IN . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 129
+    expression  ir ao estado 129
 
 
-State 118
+Estado 118
 
    52 let_expression: OBJECTID ':' TYPEID ASSIGN . expression IN expression
    54               | OBJECTID ':' TYPEID ASSIGN . expression ',' let_expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 130
+    expression  ir ao estado 130
 
 
-State 119
+Estado 119
 
    53 let_expression: OBJECTID ':' TYPEID ',' . let_expression
 
-    error     shift, and go to state 55
-    OBJECTID  shift, and go to state 56
+    error     deslocar, e ir ao estado 55
+    OBJECTID  deslocar, e ir ao estado 56
 
-    let_expression  go to state 131
+    let_expression  ir ao estado 131
 
 
-State 120
+Estado 120
 
    22 expression: WHILE expression LOOP expression POOL .
 
-    $default  reduce using rule 22 (expression)
+    $padrão  reduzir usando a regra 22 (expression)
 
 
-State 121
+Estado 121
 
    42 case: OBJECTID ':' . TYPEID DARROW expression
 
-    TYPEID  shift, and go to state 132
+    TYPEID  deslocar, e ir ao estado 132
 
 
-State 122
+Estado 122
 
    43 case_list: case ';' .
 
-    $default  reduce using rule 43 (case_list)
+    $padrão  reduzir usando a regra 43 (case_list)
 
 
-State 123
+Estado 123
 
    25 expression: CASE expression OF case_list ESAC .
 
-    $default  reduce using rule 25 (expression)
+    $padrão  reduzir usando a regra 25 (expression)
 
 
-State 124
+Estado 124
 
    44 case_list: case_list case . ';'
 
-    ';'  shift, and go to state 133
+    ';'  deslocar, e ir ao estado 133
 
 
-State 125
+Estado 125
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1929,36 +1929,36 @@ State 125
    35           | expression . '=' expression
    46 expression_params: expression_params ',' expression .
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 46 (expression_params)
+    $padrão  reduzir usando a regra 46 (expression_params)
 
 
-State 126
+Estado 126
 
    19 expression: expression '@' TYPEID '.' OBJECTID . '(' expression_params ')'
 
-    '('  shift, and go to state 134
+    '('  deslocar, e ir ao estado 134
 
 
-State 127
+Estado 127
 
    18 expression: expression '.' OBJECTID '(' expression_params . ')'
    46 expression_params: expression_params . ',' expression
 
-    ')'  shift, and go to state 135
-    ','  shift, and go to state 110
+    ')'  deslocar, e ir ao estado 135
+    ','  deslocar, e ir ao estado 110
 
 
-State 128
+Estado 128
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1971,19 +1971,19 @@ State 128
    34           | expression . LE expression
    35           | expression . '=' expression
 
-    FI   shift, and go to state 136
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    FI   deslocar, e ir ao estado 136
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
 
-State 129
+Estado 129
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -1996,10 +1996,20 @@ State 129
    35           | expression . '=' expression
    51 let_expression: OBJECTID ':' TYPEID IN expression .
 
-    $default  reduce using rule 51 (let_expression)
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+
+    $padrão  reduzir usando a regra 51 (let_expression)
 
 
-State 130
+Estado 130
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -2013,143 +2023,143 @@ State 130
    52 let_expression: OBJECTID ':' TYPEID ASSIGN expression . IN expression
    54               | OBJECTID ':' TYPEID ASSIGN expression . ',' let_expression
 
-    IN   shift, and go to state 137
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
-    ','  shift, and go to state 138
+    IN   deslocar, e ir ao estado 137
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+    ','  deslocar, e ir ao estado 138
 
 
-State 131
+Estado 131
 
    53 let_expression: OBJECTID ':' TYPEID ',' let_expression .
 
-    $default  reduce using rule 53 (let_expression)
+    $padrão  reduzir usando a regra 53 (let_expression)
 
 
-State 132
+Estado 132
 
    42 case: OBJECTID ':' TYPEID . DARROW expression
 
-    DARROW  shift, and go to state 139
+    DARROW  deslocar, e ir ao estado 139
 
 
-State 133
+Estado 133
 
    44 case_list: case_list case ';' .
 
-    $default  reduce using rule 44 (case_list)
+    $padrão  reduzir usando a regra 44 (case_list)
 
 
-State 134
+Estado 134
 
    19 expression: expression '@' TYPEID '.' OBJECTID '(' . expression_params ')'
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    $default  reduce using rule 47 (expression_params)
+    $padrão  reduzir usando a regra 47 (expression_params)
 
-    expression         go to state 85
-    expression_params  go to state 140
+    expression         ir ao estado 85
+    expression_params  ir ao estado 140
 
 
-State 135
+Estado 135
 
    18 expression: expression '.' OBJECTID '(' expression_params ')' .
 
-    $default  reduce using rule 18 (expression)
+    $padrão  reduzir usando a regra 18 (expression)
 
 
-State 136
+Estado 136
 
    21 expression: IF expression THEN expression ELSE expression FI .
 
-    $default  reduce using rule 21 (expression)
+    $padrão  reduzir usando a regra 21 (expression)
 
 
-State 137
+Estado 137
 
    52 let_expression: OBJECTID ':' TYPEID ASSIGN expression IN . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 141
+    expression  ir ao estado 141
 
 
-State 138
+Estado 138
 
    54 let_expression: OBJECTID ':' TYPEID ASSIGN expression ',' . let_expression
 
-    error     shift, and go to state 55
-    OBJECTID  shift, and go to state 56
+    error     deslocar, e ir ao estado 55
+    OBJECTID  deslocar, e ir ao estado 56
 
-    let_expression  go to state 142
+    let_expression  ir ao estado 142
 
 
-State 139
+Estado 139
 
    42 case: OBJECTID ':' TYPEID DARROW . expression
 
-    IF          shift, and go to state 38
-    LET         shift, and go to state 39
-    WHILE       shift, and go to state 40
-    CASE        shift, and go to state 41
-    NEW         shift, and go to state 42
-    ISVOID      shift, and go to state 43
-    STR_CONST   shift, and go to state 44
-    INT_CONST   shift, and go to state 45
-    BOOL_CONST  shift, and go to state 46
-    OBJECTID    shift, and go to state 47
-    NOT         shift, and go to state 48
-    '~'         shift, and go to state 49
-    '{'         shift, and go to state 50
-    '('         shift, and go to state 51
+    IF          deslocar, e ir ao estado 38
+    LET         deslocar, e ir ao estado 39
+    WHILE       deslocar, e ir ao estado 40
+    CASE        deslocar, e ir ao estado 41
+    NEW         deslocar, e ir ao estado 42
+    ISVOID      deslocar, e ir ao estado 43
+    STR_CONST   deslocar, e ir ao estado 44
+    INT_CONST   deslocar, e ir ao estado 45
+    BOOL_CONST  deslocar, e ir ao estado 46
+    OBJECTID    deslocar, e ir ao estado 47
+    NOT         deslocar, e ir ao estado 48
+    '~'         deslocar, e ir ao estado 49
+    '{'         deslocar, e ir ao estado 50
+    '('         deslocar, e ir ao estado 51
 
-    expression  go to state 143
+    expression  ir ao estado 143
 
 
-State 140
+Estado 140
 
    19 expression: expression '@' TYPEID '.' OBJECTID '(' expression_params . ')'
    46 expression_params: expression_params . ',' expression
 
-    ')'  shift, and go to state 144
-    ','  shift, and go to state 110
+    ')'  deslocar, e ir ao estado 144
+    ','  deslocar, e ir ao estado 110
 
 
-State 141
+Estado 141
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -2162,17 +2172,27 @@ State 141
    35           | expression . '=' expression
    52 let_expression: OBJECTID ':' TYPEID ASSIGN expression IN expression .
 
-    $default  reduce using rule 52 (let_expression)
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
+
+    $padrão  reduzir usando a regra 52 (let_expression)
 
 
-State 142
+Estado 142
 
    54 let_expression: OBJECTID ':' TYPEID ASSIGN expression ',' let_expression .
 
-    $default  reduce using rule 54 (let_expression)
+    $padrão  reduzir usando a regra 54 (let_expression)
 
 
-State 143
+Estado 143
 
    18 expression: expression . '.' OBJECTID '(' expression_params ')'
    19           | expression . '@' TYPEID '.' OBJECTID '(' expression_params ')'
@@ -2185,21 +2205,21 @@ State 143
    35           | expression . '=' expression
    42 case: OBJECTID ':' TYPEID DARROW expression .
 
-    LE   shift, and go to state 69
-    '<'  shift, and go to state 70
-    '='  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '@'  shift, and go to state 76
-    '.'  shift, and go to state 77
+    LE   deslocar, e ir ao estado 69
+    '<'  deslocar, e ir ao estado 70
+    '='  deslocar, e ir ao estado 71
+    '+'  deslocar, e ir ao estado 72
+    '-'  deslocar, e ir ao estado 73
+    '*'  deslocar, e ir ao estado 74
+    '/'  deslocar, e ir ao estado 75
+    '@'  deslocar, e ir ao estado 76
+    '.'  deslocar, e ir ao estado 77
 
-    $default  reduce using rule 42 (case)
+    $padrão  reduzir usando a regra 42 (case)
 
 
-State 144
+Estado 144
 
    19 expression: expression '@' TYPEID '.' OBJECTID '(' expression_params ')' .
 
-    $default  reduce using rule 19 (expression)
+    $padrão  reduzir usando a regra 19 (expression)

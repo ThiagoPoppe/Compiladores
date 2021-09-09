@@ -1,0 +1,1381 @@
+#4
+_program
+  #4
+  _class
+    ClasseVazia
+    Object
+    "good.cl"
+    (
+    )
+  #7
+  _class
+    ClasseComHerancaSemFeatures
+    ClasseVazia
+    "good.cl"
+    (
+    )
+  #10
+  _class
+    ClasseSemHerancaComFeatures
+    Object
+    "good.cl"
+    (
+    #11
+    _attr
+      io
+      IO
+      #11
+      _new
+        IO
+      : _no_type
+    #12
+    _attr
+      meu_objeto
+      Object
+      #12
+      _no_expr
+      : _no_type
+    #13
+    _attr
+      meu_int
+      Int
+      #13
+      _int
+        42
+      : _no_type
+    #15
+    _method
+      metodo_sem_formals
+      Object
+      #16
+      _dispatch
+        #16
+        _object
+          io
+        : _no_type
+        out_string
+        (
+        #16
+        _string
+          "metodo_sem_formals da classe ClasseSemHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    #19
+    _method
+      metodo_um_formal
+      #19
+      _formal
+        f1
+        Object
+      Object
+      #20
+      _dispatch
+        #20
+        _object
+          io
+        : _no_type
+        out_string
+        (
+        #20
+        _string
+          "metodo_um_formal da classe ClasseSemHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    #23
+    _method
+      metodo_multiplos_formals
+      #23
+      _formal
+        f1
+        Int
+      #23
+      _formal
+        f2
+        String
+      #23
+      _formal
+        f3
+        Object
+      Object
+      #24
+      _dispatch
+        #24
+        _object
+          io
+        : _no_type
+        out_string
+        (
+        #24
+        _string
+          "metodo_multiplos_formals da classe ClasseSemHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    )
+  #29
+  _class
+    ClasseComHerancaComFeatures
+    IO
+    "good.cl"
+    (
+    #30
+    _attr
+      meu_objeto
+      Object
+      #30
+      _no_expr
+      : _no_type
+    #31
+    _attr
+      meu_int
+      Int
+      #31
+      _int
+        42
+      : _no_type
+    #33
+    _method
+      metodo_sem_formals
+      Object
+      #34
+      _dispatch
+        #34
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #34
+        _string
+          "metodo_sem_formals da classe ClasseComHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    #37
+    _method
+      metodo_um_formal
+      #37
+      _formal
+        f1
+        Object
+      Object
+      #38
+      _dispatch
+        #38
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #38
+        _string
+          "metodo_um_formal da classe ClasseComHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    #41
+    _method
+      metodo_multiplos_formals
+      #41
+      _formal
+        f1
+        Int
+      #41
+      _formal
+        f2
+        String
+      #41
+      _formal
+        f3
+        Object
+      Object
+      #42
+      _dispatch
+        #42
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #42
+        _string
+          "metodo_multiplos_formals da classe ClasseComHerancaComFeatures"
+        : _no_type
+        )
+      : _no_type
+    )
+  #47
+  _class
+    ClasseParaDispatchEstatico
+    ClasseComHerancaComFeatures
+    "good.cl"
+    (
+    #48
+    _attr
+      outro_objeto
+      Object
+      #48
+      _no_expr
+      : _no_type
+    #49
+    _attr
+      outro_int
+      Int
+      #49
+      _int
+        42
+      : _no_type
+    #51
+    _method
+      metodo_sem_formals
+      Object
+      #52
+      _dispatch
+        #52
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #52
+        _string
+          "metodo_sem_formals da classe ClasseParaDispatchEstatico"
+        : _no_type
+        )
+      : _no_type
+    #55
+    _method
+      metodo_um_formal
+      #55
+      _formal
+        f1
+        Object
+      Object
+      #56
+      _dispatch
+        #56
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #56
+        _string
+          "metodo_um_formal da classe ClasseParaDispatchEstatico"
+        : _no_type
+        )
+      : _no_type
+    #59
+    _method
+      metodo_multiplos_formals
+      #59
+      _formal
+        f1
+        Int
+      #59
+      _formal
+        f2
+        String
+      #59
+      _formal
+        f3
+        Object
+      Object
+      #60
+      _dispatch
+        #60
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #60
+        _string
+          "metodo_multiplos_formals da classe ClasseParaDispatchEstatico"
+        : _no_type
+        )
+      : _no_type
+    )
+  #65
+  _class
+    ClasseComTodasAsExpressoes
+    IO
+    "good.cl"
+    (
+    #66
+    _attr
+      int
+      Int
+      #66
+      _no_expr
+      : _no_type
+    #67
+    _attr
+      bool
+      Bool
+      #67
+      _no_expr
+      : _no_type
+    #68
+    _attr
+      string
+      String
+      #68
+      _no_expr
+      : _no_type
+    #69
+    _attr
+      object
+      Object
+      #69
+      _no_expr
+      : _no_type
+    #70
+    _attr
+      teste_dispatch
+      ClasseParaDispatchEstatico
+      #70
+      _no_expr
+      : _no_type
+    #72
+    _method
+      metodo_sem_formals
+      Object
+      #73
+      _dispatch
+        #73
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #73
+        _string
+          "metodo_sem_formals da classe ClasseComTodasAsExpressoes"
+        : _no_type
+        )
+      : _no_type
+    #76
+    _method
+      metodo_um_formal
+      #76
+      _formal
+        f1
+        Object
+      Object
+      #77
+      _dispatch
+        #77
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #77
+        _string
+          "metodo_um_formal da classe ClasseComTodasAsExpressoes"
+        : _no_type
+        )
+      : _no_type
+    #80
+    _method
+      metodo_multiplos_formals
+      #80
+      _formal
+        f1
+        Int
+      #80
+      _formal
+        f2
+        String
+      #80
+      _formal
+        f3
+        Object
+      Object
+      #81
+      _dispatch
+        #81
+        _object
+          self
+        : _no_type
+        out_string
+        (
+        #81
+        _string
+          "metodo_multiplos_formals da classe ClasseComTodasAsExpressoes"
+        : _no_type
+        )
+      : _no_type
+    #84
+    _method
+      metodo_todas_expressoes_em_bloco
+      Object
+      #85
+      _block
+        #87
+        _assign
+          int
+          #87
+          _int
+            3
+          : _no_type
+        : _no_type
+        #88
+        _assign
+          bool
+          #88
+          _bool
+            0
+          : _no_type
+        : _no_type
+        #89
+        _assign
+          string
+          #89
+          _string
+            "Minha String"
+          : _no_type
+        : _no_type
+        #90
+        _assign
+          teste_dispatch
+          #90
+          _new
+            ClasseParaDispatchEstatico
+          : _no_type
+        : _no_type
+        #93
+        _dispatch
+          #93
+          _object
+            teste_dispatch
+          : _no_type
+          metodo_sem_formals
+          (
+          )
+        : _no_type
+        #94
+        _dispatch
+          #94
+          _object
+            teste_dispatch
+          : _no_type
+          metodo_um_formal
+          (
+          #94
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #95
+        _dispatch
+          #95
+          _object
+            teste_dispatch
+          : _no_type
+          metodo_multiplos_formals
+          (
+          #95
+          _object
+            int
+          : _no_type
+          #95
+          _object
+            string
+          : _no_type
+          #95
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #98
+        _static_dispatch
+          #98
+          _object
+            teste_dispatch
+          : _no_type
+          ClasseComHerancaComFeatures
+          metodo_sem_formals
+          (
+          )
+        : _no_type
+        #99
+        _static_dispatch
+          #99
+          _object
+            teste_dispatch
+          : _no_type
+          ClasseComHerancaComFeatures
+          metodo_um_formal
+          (
+          #99
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #100
+        _static_dispatch
+          #100
+          _object
+            teste_dispatch
+          : _no_type
+          ClasseComHerancaComFeatures
+          metodo_multiplos_formals
+          (
+          #100
+          _object
+            int
+          : _no_type
+          #100
+          _object
+            string
+          : _no_type
+          #100
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #103
+        _dispatch
+          #103
+          _object
+            self
+          : _no_type
+          metodo_sem_formals
+          (
+          )
+        : _no_type
+        #104
+        _dispatch
+          #104
+          _object
+            self
+          : _no_type
+          metodo_um_formal
+          (
+          #104
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #105
+        _dispatch
+          #105
+          _object
+            self
+          : _no_type
+          metodo_multiplos_formals
+          (
+          #105
+          _object
+            int
+          : _no_type
+          #105
+          _object
+            string
+          : _no_type
+          #105
+          _object
+            object
+          : _no_type
+          )
+        : _no_type
+        #108
+        _cond
+          #108
+          _eq
+            #108
+            _object
+              bool
+            : _no_type
+            #108
+            _bool
+              1
+            : _no_type
+          : _no_type
+          #109
+          _dispatch
+            #109
+            _object
+              self
+            : _no_type
+            out_string
+            (
+            #109
+            _string
+              "bool assumiu valor true"
+            : _no_type
+            )
+          : _no_type
+          #111
+          _dispatch
+            #111
+            _object
+              self
+            : _no_type
+            out_string
+            (
+            #111
+            _string
+              "bool assumiu valor false"
+            : _no_type
+            )
+          : _no_type
+        : _no_type
+        #115
+        _loop
+          #115
+          _lt
+            #115
+            _int
+              0
+            : _no_type
+            #115
+            _object
+              int
+            : _no_type
+          : _no_type
+          #115
+          _block
+            #116
+            _dispatch
+              #116
+              _object
+                self
+              : _no_type
+              out_string
+              (
+              #116
+              _string
+                "Valor de int: "
+              : _no_type
+              )
+            : _no_type
+            #117
+            _dispatch
+              #117
+              _object
+                self
+              : _no_type
+              out_int
+              (
+              #117
+              _object
+                int
+              : _no_type
+              )
+            : _no_type
+            #118
+            _dispatch
+              #118
+              _object
+                self
+              : _no_type
+              out_string
+              (
+              #118
+              _string
+                "\n"
+              : _no_type
+              )
+            : _no_type
+            #120
+            _assign
+              int
+              #120
+              _sub
+                #120
+                _object
+                  int
+                : _no_type
+                #120
+                _int
+                  1
+                : _no_type
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+        #124
+        _let
+          x
+          Int
+          #124
+          _no_expr
+          : _no_type
+          #124
+          _string
+            "Placeholder"
+          : _no_type
+        : _no_type
+        #125
+        _let
+          x
+          Int
+          #125
+          _int
+            10
+          : _no_type
+          #125
+          _plus
+            #125
+            _object
+              x
+            : _no_type
+            #125
+            _int
+              10
+            : _no_type
+          : _no_type
+        : _no_type
+        #126
+        _let
+          x
+          Int
+          #126
+          _no_expr
+          : _no_type
+          #126
+          _let
+            y
+            Int
+            #126
+            _no_expr
+            : _no_type
+            #126
+            _string
+              "Placeholder"
+            : _no_type
+          : _no_type
+        : _no_type
+        #127
+        _let
+          x
+          Int
+          #127
+          _no_expr
+          : _no_type
+          #127
+          _let
+            y
+            Int
+            #127
+            _int
+              10
+            : _no_type
+            #127
+            _string
+              "Placeholder"
+            : _no_type
+          : _no_type
+        : _no_type
+        #128
+        _let
+          x
+          Int
+          #128
+          _int
+            10
+          : _no_type
+          #128
+          _let
+            y
+            Int
+            #128
+            _int
+              10
+            : _no_type
+            #128
+            _plus
+              #128
+              _object
+                x
+              : _no_type
+              #128
+              _object
+                y
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+        #129
+        _let
+          x
+          Int
+          #129
+          _no_expr
+          : _no_type
+          #129
+          _let
+            y
+            String
+            #129
+            _no_expr
+            : _no_type
+            #129
+            _let
+              z
+              Bool
+              #129
+              _no_expr
+              : _no_type
+              #129
+              _string
+                "Placeholder"
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+        #130
+        _let
+          x
+          Int
+          #130
+          _int
+            10
+          : _no_type
+          #130
+          _let
+            y
+            Int
+            #130
+            _int
+              10
+            : _no_type
+            #130
+            _plus
+              #130
+              _object
+                x
+              : _no_type
+              #130
+              _object
+                y
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+        #133
+        _typcase
+          #133
+          _object
+            int
+          : _no_type
+          #133
+          _branch
+            x
+            Int
+            #133
+            _dispatch
+              #133
+              _object
+                self
+              : _no_type
+              out_string
+              (
+              #133
+              _string
+                "Foi selecionado x\n"
+              : _no_type
+              )
+            : _no_type
+        : _no_type
+        #134
+        _typcase
+          #134
+          _object
+            bool
+          : _no_type
+          #135
+          _branch
+            x
+            Int
+            #135
+            _dispatch
+              #135
+              _object
+                self
+              : _no_type
+              out_string
+              (
+              #135
+              _string
+                "Foi selecionado x\n"
+              : _no_type
+              )
+            : _no_type
+          #136
+          _branch
+            default
+            Object
+            #136
+            _dispatch
+              #136
+              _object
+                self
+              : _no_type
+              out_string
+              (
+              #136
+              _string
+                "Foi selecionado default\n"
+              : _no_type
+              )
+            : _no_type
+        : _no_type
+        #140
+        _new
+          ClasseVazia
+        : _no_type
+        #141
+        _isvoid
+          #141
+          _object
+            object
+          : _no_type
+        : _no_type
+        #144
+        _plus
+          #144
+          _object
+            int
+          : _no_type
+          #144
+          _int
+            10
+          : _no_type
+        : _no_type
+        #145
+        _sub
+          #145
+          _int
+            20
+          : _no_type
+          #145
+          _object
+            int
+          : _no_type
+        : _no_type
+        #146
+        _mul
+          #146
+          _neg
+            #146
+            _int
+              1
+            : _no_type
+          : _no_type
+          #146
+          _object
+            int
+          : _no_type
+        : _no_type
+        #147
+        _divide
+          #147
+          _object
+            int
+          : _no_type
+          #147
+          _int
+            1
+          : _no_type
+        : _no_type
+        #148
+        _neg
+          #148
+          _int
+            10
+          : _no_type
+        : _no_type
+        #149
+        _lt
+          #149
+          _object
+            int
+          : _no_type
+          #149
+          _int
+            10
+          : _no_type
+        : _no_type
+        #150
+        _leq
+          #150
+          _object
+            int
+          : _no_type
+          #150
+          _int
+            20
+          : _no_type
+        : _no_type
+        #151
+        _eq
+          #151
+          _object
+            int
+          : _no_type
+          #151
+          _int
+            30
+          : _no_type
+        : _no_type
+        #152
+        _comp
+          #152
+          _object
+            bool
+          : _no_type
+        : _no_type
+        #155
+        _int
+          10
+        : _no_type
+        #158
+        _object
+          string
+        : _no_type
+        #159
+        _int
+          42
+        : _no_type
+        #160
+        _string
+          "string placeholder"
+        : _no_type
+        #161
+        _bool
+          1
+        : _no_type
+        #162
+        _bool
+          0
+        : _no_type
+        #166
+        _let
+          x
+          Int
+          #166
+          _int
+            10
+          : _no_type
+          #166
+          _let
+            y
+            String
+            #166
+            _string
+              "abc"
+            : _no_type
+            #166
+            _plus
+              #166
+              _object
+                x
+              : _no_type
+              #166
+              _object
+                y
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+        #167
+        _comp
+          #167
+          _int
+            10
+          : _no_type
+        : _no_type
+        #168
+        _neg
+          #168
+          _bool
+            1
+          : _no_type
+        : _no_type
+        #169
+        _comp
+          #169
+          _string
+            "isso esta semanticamente errado!"
+          : _no_type
+        : _no_type
+        #170
+        _cond
+          #170
+          _int
+            10
+          : _no_type
+          #170
+          _string
+            "expr1"
+          : _no_type
+          #170
+          _string
+            "expr2"
+          : _no_type
+        : _no_type
+      : _no_type
+    )
+  #176
+  _class
+    PrettyPrint
+    IO
+    "good.cl"
+    (
+    #177
+    _method
+      print
+      #177
+      _formal
+        str
+        String
+      #177
+      _formal
+        val
+        Int
+      Object
+      #178
+      _block
+        #179
+        _dispatch
+          #179
+          _object
+            self
+          : _no_type
+          out_string
+          (
+          #179
+          _string
+            "\n"
+          : _no_type
+          )
+        : _no_type
+        #180
+        _dispatch
+          #180
+          _object
+            self
+          : _no_type
+          out_string
+          (
+          #180
+          _object
+            str
+          : _no_type
+          )
+        : _no_type
+        #181
+        _dispatch
+          #181
+          _object
+            self
+          : _no_type
+          out_int
+          (
+          #181
+          _object
+            val
+          : _no_type
+          )
+        : _no_type
+        #182
+        _dispatch
+          #182
+          _object
+            self
+          : _no_type
+          out_string
+          (
+          #182
+          _string
+            "\n"
+          : _no_type
+          )
+        : _no_type
+      : _no_type
+    )
+  #187
+  _class
+    Main
+    IO
+    "good.cl"
+    (
+    #188
+    _attr
+      n
+      Int
+      #188
+      _no_expr
+      : _no_type
+    #189
+    _attr
+      printer
+      PrettyPrint
+      #189
+      _new
+        PrettyPrint
+      : _no_type
+    #191
+    _method
+      fib
+      #191
+      _formal
+        n
+        Int
+      Int
+      #192
+      _cond
+        #192
+        _eq
+          #192
+          _object
+            n
+          : _no_type
+          #192
+          _int
+            0
+          : _no_type
+        : _no_type
+        #193
+        _int
+          0
+        : _no_type
+        #195
+        _cond
+          #195
+          _eq
+            #195
+            _object
+              n
+            : _no_type
+            #195
+            _int
+              1
+            : _no_type
+          : _no_type
+          #196
+          _int
+            1
+          : _no_type
+          #198
+          _plus
+            #198
+            _dispatch
+              #198
+              _object
+                self
+              : _no_type
+              fib
+              (
+              #198
+              _sub
+                #198
+                _object
+                  n
+                : _no_type
+                #198
+                _int
+                  1
+                : _no_type
+              : _no_type
+              )
+            : _no_type
+            #198
+            _dispatch
+              #198
+              _object
+                self
+              : _no_type
+              fib
+              (
+              #198
+              _sub
+                #198
+                _object
+                  n
+                : _no_type
+                #198
+                _int
+                  2
+                : _no_type
+              : _no_type
+              )
+            : _no_type
+          : _no_type
+        : _no_type
+      : _no_type
+    #203
+    _method
+      main
+      Object
+      #204
+      _block
+        #205
+        _dispatch
+          #205
+          _object
+            self
+          : _no_type
+          out_string
+          (
+          #205
+          _string
+            "Insira um valor de N positivo: "
+          : _no_type
+          )
+        : _no_type
+        #206
+        _assign
+          n
+          #206
+          _dispatch
+            #206
+            _object
+              self
+            : _no_type
+            in_int
+            (
+            )
+          : _no_type
+        : _no_type
+        #208
+        _dispatch
+          #208
+          _object
+            printer
+          : _no_type
+          print
+          (
+          #208
+          _string
+            "Valor computado = "
+          : _no_type
+          #208
+          _dispatch
+            #208
+            _object
+              self
+            : _no_type
+            fib
+            (
+            #208
+            _object
+              n
+            : _no_type
+            )
+          : _no_type
+          )
+        : _no_type
+      : _no_type
+    )

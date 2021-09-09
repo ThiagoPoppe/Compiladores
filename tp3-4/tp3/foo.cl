@@ -1,18 +1,17 @@
 class A {
-    say_hello() : String { "Ola da classe A\n" };
+    metodo() : B {
+        new B
+    };
 };
 
-class B inherits A {
-    say_hello() : String { "Ola da classe B\n" };
+class B inherits IO {
+    metodo() : Object {
+        out_string("Deu Certo!\n")
+    };
 };
 
-class Main inherits IO {
-    input : String;
-
+class Main {
     main() : Object {
-        {
-            input <- in_string();
-            out_string(if input = "A" then new A else new B fi.say_hello());
-        }
+        (new A).metodo().metodo()
     };
 };

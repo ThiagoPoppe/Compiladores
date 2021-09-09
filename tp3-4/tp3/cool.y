@@ -97,6 +97,7 @@ int omerrs = 0;               /* number of errors in lexing and parsing */
 %token LET_
 
 /* Precedence declarations go here. */
+%left LET_
 %right ASSIGN
 %left NOT
 %nonassoc LE '<' '='
@@ -106,7 +107,6 @@ int omerrs = 0;               /* number of errors in lexing and parsing */
 %left '~'
 %left '@'
 %left '.'
-%left LET_
 
 %%
 

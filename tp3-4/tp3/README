@@ -1,137 +1,104 @@
-                    Arquivo README para o Trabalho Prático 3
-================================================================================
+Membros do grupo:
+  1. Gabriel Lima Canguçu
+  2. Giovanna Louzi Bellonia
+  3. Thiago Martin Poppe
 
-Estrutura
----------
+Algumas decisões de projeto
+===========================
 
-  Considere que <cool dir> corresponde ao caminho onde está a pasta "cool" que
-  você extraiu do arquivo "tp3-4.tar.gz". Após executar o comando
+Para transcrevermos a gramática de COOL, foi criado um não terminal equivalente aos não terminais
+presentes na gramática. Por exemplo, para o não terminal expr foi criado um não terminal equivalente
+chamado de expression. Além disso, de um modo geral, cada não terminal "singular" possui a sua versão
+"em lista" para regras que exigem a aparição repetida desse não terminal.
 
-  > make -f <cool dir>/assignments/parser/Makefile
+Como regra geral, os não terminais que possuem o sufixo "_list" são repetições de não terminais possuindo um
+';' entre os não terminais; já com o sufixo "_params" são repetições possuindo um ',' entre os não terminais. Por exemplo, o não terminal formal_params representa o pedaço [ formal [[, formal]]* ] da primeira regra de uma feature.
+Já o não terminal feature_list representa o pedaço [[feature;]]* da regra que define uma classe.
 
-  seu diretório deve conter os seguintes arquivos (-> corresponde a links
-  simbólicos):
+Um outro não terminal criado e que não está presente na gramática é o let_expression, e o porquê da sua criação
+será explicado mais a frente.
 
-  Makefile                -> [cool dir]/src/parser/Makefile
-  README
-  cool.y
-  bad.cl
-  good.cl
-  cool-tree.handcode.h
-  cool-tree.cc            -> [cool dir]/src/parser/cool-tree.cc
-  cool-tree.aps           -> [cool dir]/src/parser/cool-tree.aps
-  dumptype.cc             -> [cool dir]/src/parser/dumptype.cc
-  handle_flags.c          -> [cool dir]/src/parser/handle_flags.cc
-  parser-phase.cc         -> [cool dir]/src/parser/parser-phase.cc
-  stringtab.cc            -> [cool dir]/src/parser/stringtab.cc
-  tokens-lex.cc           -> [cool dir]/src/parser/tokens-lex.cc
-  tree.cc                 -> [cool dir]/src/parser/tree.cc
-  utilities.cc            -> [cool dir]/src/parser/utilities.cc
-  *.d                     dependency files
-  *.*                     other generated files
+A gramática como um todo foi implementada de forma bem direta, isto é, as regras foram quase que
+explicitamente escritas através de código bison. Por exemplo, a regra <expr> '+' <expr> foi escrita
+dentro das regras do não terminal expression como sendo:
 
-  Os arquivos de cabeçalho (.h) para este trabalho podem ser encontrados em
-  [cool dir]/include/parser.
+expression '+' expression {
+  $$ = plus($1, $3);
+}
 
-  O Makefile contém ações para compilar e executar seu programa.
-  NÃO MODIFIQUE.
+A terceira regra de uma expr, isto é, ID([ expr [[,expr]]* ]), não possuiu uma implementação tão direta quanto as demais. Essa regra é equivalente à usarmos uma regra de dispatch onde a primeira expressão é um "self", como foi mencionado nas documentações providenciadas. Sendo assim, essa regra foi implementada da seguinte forma:
 
-  O README (este arquivo) contém algumas instruções. Além disso, você encontrará
-  ao final do arquivo um espaço para que você preencha a documentação a ser
-  entregue. Você deve explicar as decisões de projeto, explicar por que seu
-  programa está correto e por que seus casos de teste são adequados. Ao final,
-  antes de gerar o arquivo de submissão, apague todo o conteúdo do arquivo README
-  que não faz parte da sua documentação (i.e. as instruções aqui presentes, acima
-  dos dizeres "corte aqui"),
+OBJECTID '(' expression_params ')' {
+    /* note que ela possui a mesma sintaxe que um dispatch onde a primeira expr é um self! */
+    /* sendo assim nós definimos um id self na tabela de ids e recuperarmos a sua "entrada" */
+    Entry *self = idtable.add_string((char*) "self");
+    $$ = dispatch(object(self), $1, $3);
+}
 
-  cool.y contém um esqueleto inicial da especificação do parser que você irá
-  escrever. Ele já contém algumas produções para programa e classes. Use-as como
-  exemplo para escrever o restante das produções. Você deve, também, ler a
-  documentação do bison.
+Uma outra expressão que não foi tão trivial de se implementar foi a expressão let, mais especificamente uma expressão
+let com múltiplas declarações. Para isso, foi criado um não terminal let_expression que cuidará da questão de termos
+múltiplas declarações.
 
-  good.cl e bad.cl testam algumas características da gramática. Você deve
-  adicionar testes para garantir que good.cl exercite qualquer construção legal e
-  que bad.cl exercite a maior quantidade possível de erros que você consiga
-  inserir em um único arquivo.
+A expressão let implementada no pacote de árvores foi implementada para expressões com apenas 1 declaração, sendo assim, para múltiplas declarações, nós devemos enxergar a expressão let de uma forma diferente. Notamos que um let com múltiplas declarações na verdade pode ser modelado como vários lets aninhados, e foi exatamente isso que fizemos. Primeiramente a expressão let será analisada através da seguinte regra:
 
-  cool-tree.aps contém as definições de árvore que você utilizará para construir
-  a árvore de sintaxe abstrata (AST). A partir deste arquivo, cool-tree.h e
-  cool-tree.cc são gerados automaticamente por um utilitário que compila a
-  especificação para funções C++, para produzir e consumir nós de árvore.
-  NÃO MODIFIQUE.
+LET let_expression {
+  /* iremos apenas retornar o resultado do parsing do não terminal let_expression */
+  $$ = $2;
+}
 
-  tree.{cc|h} contém definições usadas pelo pacote de árvore.
-  cool-tree.handcode.h é uma extensão de cool-tree.h escrita a mão. Se você ler
-  os arquivos cool-tree.h e cool-tree.cc, você notará que existem "hooks" para
-  estender declarações de classes. Estender e moficar o pacote de árvore é
-  discutido em "Cool Tour", mas você não precisa modificar esse
-  pacote para este trabalho.
+Depois, reescrevemos a regra do let utilizando a ideia de lets aninhados, ficando da seguinte forma:
 
-  tokens-lex.cc é um analisador léxico capaz de ler uma sequência de tokens.
-  NÃO MODIFIQUE.
+let_expression : OBJECTID ':' TYPEID IN expression %prec LET_ {
+    /* let expression with no initialization */
+    $$ = let($1, $3, no_expr(), $5);
+}
+| OBJECTID ':' TYPEID ASSIGN expression IN expression %prec LET_ {
+    /* let expression with initialization */
+    $$ = let($1, $3, $5, $7);
+}
+| OBJECTID ':' TYPEID ',' let_expression {
+    /* nested let expressions where the first id has no initialization */
+    $$ = let($1, $3, no_expr(), $5);
+}
+| OBJECTID ':' TYPEID ASSIGN expression ',' let_expression {
+    /* nested let expressions where the first id has an initialization */
+    $$ = let($1, $3, $5, $7);
+}
 
-  parser-phase.cc contém um driver para testar o parser. NÃO MODIFIQUE.
+Para a remoção da ambiguidade da gramática foi definido a precedência dos operadores como especificado nas documentações fornecidas. Para a ambiguidade do let, foi criado um novo token LET_ que será usado para adicionarmos precedência a esta regra tal qual o exemplo da calculadora feita durante a documentação do bison que explica um pouco mais o uso do %prec.
 
-  dumptype.cc imprime a AST em um formato legível para a fase de análise
-  semântica do compilador. NÃO MODIFIQUE.
+Tratamento e recuperação de erros
+=================================
 
-  handle_flags.cc implementa rotinas para analisar opções passadas por linha de
-  comando. NÃO MODIFIQUE.
+Através do uso do não terminal error, já presente no bison, fomos capazes de detectar erros no processo de parsing e continuar ele a partir da próxima sentença válida. Para isso, foram adicionadas novas regras na gramática que utilizam esse não terminal como um "coringa" para representarmos que algo de errado pode ocorrer naquela região específica.
 
-  O restante dos arquivos são gerados pelo bison.
-  cool-parse.cc é o arquivo C++ gerado que contém a implementação do parser.
+Para tornar o processo de detecção de erros o mais simples e abrangente possível, optamos por colocar esse não terminal nas regras que definem os não terminais do tipo "lista". Logo, por exemplo, através da seguinte regra abaixo, somos capazes de detectar um erro em uma classe e mesmo assim continuar com o processamento do arquivo a fim de detectar o maior número de erros possíveis.
 
-Instruções
-----------
+class_list : class ';' {
+    /* a single class */
+    $$ = single_Classes($1);
+    parse_results = $$;
+}
+| class_list class ';' {
+    /* at least one class */
+    $$ = append_Classes($1, single_Classes($2));
+    parse_results = $$;
+}
+| class_list error ';' { /* if a class is incorrect we can still process other ones */ };
 
-  Para compilar seu parser, execute o seguinte comando:
+Corretude do programa e testes desenvolvidos
+============================================
 
-  > make parser
+Para corrigirmos o nosso analisador sintático, foi desenvolvido dois programas em COOL realizando testes que respeitam a gramática fornecida por completo (good.cl) e que geram erros sintáticos (bad.cl). Além disso, a saída do nosso analisador sintático foi comparada com a do analisador sintático previamente implementado presente nos arquivos fornecidos para esse trabalho prático como forma de validação.
 
-  Isto irá produzer um executável chamado "parser", que corresponde somente a
-  fase de análise sintática do compilador. Para fazer qualquer coisa útil, será
-  necessário o analisador léxico (executável = lexer), semântico (executável =
-  semant) e geração de código (executável = cgen).
+É importante frizar que tais arquivos focam apenas em erros sintáticos. Dentro do arquivo good.cl nós temos testes que respeitam exclusivamente a parte gramatical de COOL, possuindo por exemplo sentenças que por mais que estejam semanticamente erradas ainda estão sintaticamente corretas. Mais especificamente essas sentenças podem ser vistas entre as linhas 166 e 170, contendo o seguinte exemplo similar ao que foi visto em sala de aula:
 
-  Para testar seu parser em um arquivo "foo.cl", execute o
-  seguinte comando:
+let x: Int <- 10, y: String <- "abc" in x + y .
 
-  > ./myparser foo.cl
+Além de ter sido feito testes exaustivos sobre a gramática de COOL, o arquivo good.cl possui uma implementação recursiva bem simples do cálculo do n-ésimo número da sequência Fibonnaci. Porém, para poder compilar e executar esse código com sucesso é importante que as linhas que possuem erros semânticos (mencionadas anteriormente) sejam comentadas ou apagadas.
 
-  myparser é um arquivo shell script que une os analisadores léxico e
-  sintático.
+Enquanto que o arquivo good.cl testa a corretude da nossa implementação no que tange a cobertura da gramática, o arquivo bad.cl testa a corretude voltada para a parte de recuperação de erros. Esse arquivo foca, mais especificamente, em mostrar a recuperação de um erro quando temos um erro na declaração de uma classe, de uma feature, de uma declaração de variável dentro de um let e uma expressão errada dentro de um bloco de expressões.
 
-  Para aplicar seu parser aos arquivos good.cl e bad.cl, execute o comando:
+Algo importante de se notar é que por mais que o parser detecte e se recupere de um erro, o bison apenas irá informar aquele erro caso ele consiga realizar 3 shifts com sucesso. Sendo assim, para termos uma exibição completa dos erros detectados, foi criado uma classe chamada NoError que força no mínimo 3 shifts para que o próximo erro seja exibido na tela através da função yyerror já definida no arquivo cool.y.
 
-  > make dotest
-
-  Se você acredita que seu parser está correto, você pode querer
-  rodar o compilador Cool completo. Para tanto, execute o
-  seguinte comando:
-
-  > ./mycoolc foo.cl -o foo.s
-
-  mycoolc é um arquivo shell script que une as fases de compilação (léxico,
-  sintático, semântico e geração de código). Você tem disponível
-  também o coolc, uma versão de referência do compilador de
-  Cool, caso queira utilizar:
-
-  > ./coolc foo.cl -o foo.s
-
-  E, caso queira testar o programa gerado, você pode utilizar o
-  emulador spim:
-
-  > ./spim -file foo.s
-
-  Para entregar seu trabalho, primeiro certifique-se que está tudo funcionando
-  e que você preencheu o arquivo README corretamente. Em seguida, dentro do
-  diretório do projeto, execute o seguinte comando (considerando que apenas
-  os arquivos a seguir foram modificados):
-
-  > tar -czvf tp3_seuNOME.tar.gz cool.y good.cl bad.cl README
-
-  BOA SORTE!
-
-------8<------8<------8<------8<---corte arqui---8<------8<------8<------8<-----
-
-[Aqui começa sua documentação]
+Para finalizar, o arquivo good.cl testa a gramática de forma exaustiva mas não explora 100% todas as possíveis combinações de expressões e resultados. Sendo assim, optamos por gerar um programa que testa cada regra da gramática separadamente, e, ao mostrarmos que por exemplo uma expressão pode ser uma condicional, nós já temos garantia de que podemos utilizar ela em qualquer outra região da gramática que pede por uma expressão, sendo possível até mesmo de gerar um código do tipo (if x = 10 then (new X) else (new Y) fi).metodo() como apresentado na linha 188 do arquivo.
