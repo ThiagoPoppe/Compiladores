@@ -1,0 +1,22 @@
+{
+    "files.associations": {
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "*.tcc": "cpp",
+        "vector": "cpp",
+        "exception": "cpp",
+        "string_view": "cpp",
+        "functional": "cpp",
+        "fstream": "cpp",
+        "iosfwd": "cpp",
+        "istream": "cpp",
+        "system_error": "cpp",
+        "iostream": "cpp",
+        "type_traits": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "typeinfo": "cpp",
+        "memory": "cpp"
+    }
+}
