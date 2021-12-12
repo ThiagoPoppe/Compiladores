@@ -1,150 +1,63 @@
-                    Arquivo README para o Trabalho Prático 4
-================================================================================
+Membros do grupo:
+  1. Gabriel Lima Canguçu
+  2. Giovanna Louzi Bellonia
+  3. Thiago Martin Poppe
 
-Estrutura
----------
+Algumas decisões de projeto
+===========================
 
-  Considere que <cool dir> corresponde ao caminho onde está a pasta "cool" que
-  você extraiu do arquivo "tp3-4.tar.gz". Após executar o comando
+Como forma de implementar os passos encontrados no arquivo cgen.cc, optamos por utilizar o compilador original de COOL (providenciado através do script `coolc`) como uma referência, compilando o arquivo example.cl e observando o assembly gerado no arquivo example.s. Através dessa estratégia, fomos capazes de implementar as labels/tabelas <class>_protoObj, <class>_dispTab, class_nameTab, class_objTab e <class>_init.
 
-  > make -f <cool dir>/assignments/cgen/Makefile
+Antes de começarmos qualquer implementação, foi feito um estudo minuncioso dos arquivos cgen.cc cgen.h e cool_tree.h. Percebemos que no arquivo cgen.h nós temos uma lista de CgenNodes que basicamente representa uma lista das classes do nosso programa COOL, que iremos usar praticamente para implementarmos tudo. Percebemos também que essa lista insere as classes sempre no início, onde o último elemento será a classe Object. Observando melhor os nós de cada lista, conseguimos descobrir que as tags para a classe Int, Bool e String serão 2, 3 e 4 respectivamente, o que permite adotarmos uma estratégia de associar a tag da classe à sua posição na lista.
 
-  seu diretório deve conter os seguintes arquivos (-> corresponde a links
-  simbólicos):
+Para facilitar a manipulação da lista, foi criada a função reverse_list, que inverte essa lista de classes, começando assim da classe Object. Isso facilitou muito a criação das tabelas em ordem, principalmente durante o código que emite a label class_objTab, necessitando de uma associação 1:1 da tag daquela classe com a sua posição na tabela.
 
-  Makefile              -> [course dir]/assignments/PA5/Makefile
-  README
-  ast-lex.cc            -> [course dir]/src/PA5/ast-lex.cc
-  ast-parse.cc          -> [course dir]/src/PA5/ast-parse.cc
-  cgen-phase.cc         -> [course dir]/src/PA5/cgen-phase.cc
-  cgen.cc
-  cgen.h
-  cgen_supp.cc
-  cool-tree.cc          -> [course dir]/src/PA5/cool-tree.cc
-  cool-tree.handcode.h
-  dumptype.cc           -> [course dir]/src/PA5/dumptype.cc
-  emit.h
-  example.cl
-  handle_flags.cc       -> [course dir]/src/PA5/handle_flags.cc
-  mycoolc               -> [course dir]/src/PA5/mycoolc*
-  stringtab.cc          -> [course dir]/src/PA5/stringtab.cc
-  tree.cc               -> [course dir]/src/PA5/tree.cc
-  utilities.cc          -> [course dir]/src/PA5/utilities.cc
-  *.d
+Além de adicionarmos novas funcionalidades nos arquivos cgen.cc e cgen.h, optamos por modificar algumas classes do arquivo cool_tree.h. Mais especificamente, adicionamos um método virtual à classe Feature_class, indicando se aquela feature representa um atributo (valor 0) ou um método (valor 1). Modificamos também a classe Expression_class, adicionando também um método virtual que indica se aquela expressão é uma no_expr, para verificarmos se um atributo foi inicializado na classe ou não.
 
-  Os arquivos de cabeçalho (.h) para este trabalho podem ser encontrados em
-  [cool dir]/include/cgen.
+A seguir, iremos explicar um pouco mais sobre a lógica desenvolvida para cada etapa de geração de código desenvolvida pelo grupo.
 
-  O Makefile contém ações para compilar e executar seu programa.
-  NÃO MODIFIQUE.
+Lógica para geração de código de prototype objects
+==================================================
 
-  O README (este arquivo) contém algumas instruções. Além disso, você encontrará
-  ao final do arquivo um espaço para que você preencha a documentação a ser
-  entregue. Você deve explicar as decisões de projeto, explicar por que seu
-  programa está correto e por que seus casos de teste são adequados. Ao final,
-  antes de gerar o arquivo de submissão, apague todo o conteúdo do arquivo README
-  que não faz parte da sua documentação (i.e. as instruções aqui presentes, acima
-  dos dizeres "corte aqui"),
+Foi criada uma função emit_prototype_objects que emite o código necessário para criarmos os objetos "protótipos". Seguindo a especificação presente no pdf cool_runtime, criamos a seguinte lógica:
 
-  Em example.cl você deve escrever um código Cool que esteja correto, de forma
-  a testar a maior quantidade possível de aspectos do gerador de código. E, ao
-  rodar o emulador spim com o código gerado, o programa deve executar
-  corretamente.
+  - Para cada classe na lista de classes reversa:
+    1. Geramos código para a tag do coletor de lixo (.word -1);
+    2. Geramos código para indicar a label do protótipo através das funções fornecidas;
+    3. Para a tag da classe basta contarmos a sua posição da classe atual na lista de classes;
+    4. Para o tamanho do objeto foi desenvolvido uma função auxiliar chamada get_number_of_attributes que recursivamente conta o número de atributos da classe atual e do seu pai. O tamanho do objeto será o número de atributos encontrados + 3, uma vez que por padrão teremos 3 campos em todos os protótipos que farão referência à tag da classe, tamanho do objeto e ponteiro para a sua dispatch table.
+    5. Geramos código para indicar a dispatch table da classe através das funções fornecidas;
+    6. Através da função code_prototype_attributes, iremos gerar o código necessário para cada atributo de classe, seguindo o padrão definido no cool_runtime, onde teremos primeiro os atributos da classe pai e depois da classe atual, assumindo uma lógica recursiva para tal. Para gerarmos tal código foi utilizado o código previamente definido que faz referência ao código gerado para cada atributo presente nas tabelas de símbolo (inttable, stringtable e falsebool).
 
-  cgen.cc contém o esqueleto do gerador de código. Este arquivo fornece três
-  componentes do gerador:
+Lógica para geração de código da class_nameTab
+==============================================
 
-    - Funções para produzir o grafo de herança;
+Foi criado uma função chamada emit_class_nameTab, onde o código necessário para essa etapa é relativamente simples, consistindo em basicamente um caminhamento linear sobre a lista de classes reversa gerando o código através do mesmo código usado anteriormente que faz referência ao código gerado através das tabelas de símbolo (porém dessa vez através especificamente da stringtable).
 
-    - Funções para emitir dados globais e constantes; e
+Lógica para geração de código da class_objTab
+=============================================
 
-    - Funções para emitir instruções MIPS.
+Foi criado uma função chamada emit_class_objTab, onde o código é bem similar ao passo anterior, porém dessa vez iremos apenas gerar o nome da classe com o sufixo _protoObj e o nome da classe com o sufixo _init, como especificado no cool_runtime.
 
-  Você deve dar uma olhada e entender esse código; ele irá ajudá-lo a completar
-  o restante do gerador de código.
+Note que por estarmos trabalhando com a lista reversa essa tarefa fica bem mais simples, uma vez que a tag da classe representa a sua posição na lista.
 
+Lógica para geração de código das dispatch tables
+=================================================
 
-  cgen.h é o cabeçalho do gerador de código. Fique a vontade para dicionar o
-  que achar necessário.
+Foi criado uma função chamada emit_dispatch_tables que caminha sobre a lista de classes reversa imprimindo a dispatch table de cada classe. Ela irá utilizar uma outra função auxiliar chamada de emit_dispTab que recursivamente irá gerar a dispatch table do seu pai e posteriormente a da classe atual. Com isso, fomos capazes de respeitar o padrão de ordem imposto também nas documentações fornecidas para esse trabalho.
 
-  cgen_supp.cc é um código que serve de suporte para o gerador. Você pode
-  adicionar funções como desejar, mas NÃO MODIFIQUE as 3 funções a seguir:
+Lógica para geração de código de inicialização de cada classe
+=============================================================
 
-    - byte_mode;
-    - ascii_mode; e
-    - emit_string_constant
+De longe essa foi a função mais complexa desenvolvida. Foi criado uma função emit_class_init que irá emitir o código de inicialização de uma classe.
 
-  emit.h define uma série de macros que você pode achar úteis quando quiser
-  emitir código. Fique a vontade para modificar conforme julgar necessário.
+Essa função irá primeiramente realizar um procedimento padrão de atualizar o valor de $sp e salvar os registradores $fp, $self ($s0) e $acc ($a0), além de posteriormente atualizar o valor de $fp e mover o conteúdo de $acc para $self. Note que essa etapa foi descoberta observando o arquivo example.s como mencionado anteriormente.
 
-  cgen-phase.cc é o driver para o compilador. NÃO MODIFIQUE.
+Após isso, devemos verificar se precisamos chamar a inicialização do pai dessa classe (através de um jal), note que devemos sempre fazer isso exceto para a classe Object. Com a inicialização da classe pai feita, iremos gerar o código que inicializa os atributos da classe atual (caso necessário) e iremos retomar o estado anterior da pilha, isto é recuperando os valores de $fp, $s0 e $a0, além de atualizar novamente o valor de $sp.
 
-  O script mycoolc pode passar qualquer uma das opções padrões para o gerador
-  de código; para este trabalho, para debugar o gerador de código utilize a
-  opção -c para setar a variável cgen_debug como verdadeira. Após isso, para
-  gerar alguma informação de debug útil você vai ter que implementar o código
-  de debug; para tanto, escreva-o seguindo o formato a seguir:
+O código que inicializa os atributos da classe atual foi inteiramente baseado no código gerado dentro do arquivo example.s. Foi utilizado novamente a função get_number_of_attributes para determinarmos o offset correto quando tivermos uma herança para uma classe que por sua vez possui atributos.
 
-    if (cgen_debug) {
-      ...
-    }
+Conclusão e algumas observações
+===============================
 
-  symtab.h contém a implementação da tabela de símbolos. Você pode modificar
-  este arquivo se desejar. Para tanto, copie o arquivo <course
-  dir>/include/cgen/symtab.h para seu diretório local.
-
-  cool.h contém definições usadas por praticamente todas as partes do
-  compilador. NÃO MODIFIQUE.
-
-  tree.h contém a classe base 'tree_node' da AST.
-
-  cool-tree.cc, cool-tree.h e cool-tree.handcode.h contém as declarações e
-  definições de geração de código da AST. Você pode adicionar campos como
-  quiser, mas NÃO MODIFIQUE nenhum método que já existe, excepto pelo método
-  'code' que você pode modificar ou remover conforme desejar. Você pode
-  modificar cool-tree.h ou cool-tree.handcode.h, mas NÃO MODIFIQUE
-  cool-tree.cc; adicionoar todas as definições de método ao arquivo cgen.cc.
-
-  stringtab.h contém funções para manipulação da tabela de strings.
-  NÃO MODIFIQUE.
-
-  dumptype.cc contém funções para imprimir a AST. NÃO MODIFIQUE.
-
-  *.d são arquivos de dependência, gerados automaticamente pelo Makefile.
-
-Instruções
-----------
-
-  Para compilar seu gerador de código, execute o seguinte comando:
-
-  > make cgen
-
-  Para testar o compilador, execute o seguinte comando:
-
-  > ./mycool.c [-o nome do arquivo de saída] <file1.cl> <file2.cl> ...
-
-  Este comando faz o parse de todos os arquivos passados por linha de comando,
-  os passa para o analisador semântico e depois roda seu gerador de código em
-  cima da AST gerada.
-
-  Para rodar seu compilador no arquivo example.cl, execute o seguinte comando:
-
-  > make dotest
-
-  Para executar o código gerado:
-
-  > ./spim -file foo.s
-
-  Para entregar seu trabalho, primeiro certifique-se que está tudo funcionando
-  e que você preencheu o arquivo README corretamente. Em seguida, dentro do
-  diretório do projeto, execute o seguinte comando, passando todos os arquivos
-  modificados (incluindo este README, com sua documentação):
-
-  > tar -czvf tp3_seuNOME.tar.gz <arquivo1> <arquivo2> ...
-
-  BOA SORTE!
-
-------8<------8<------8<------8<---corte arqui---8<------8<------8<------8<-----
-
-[Aqui começa sua documentação]
-
+Como podemos ver, o trabalho prático foi entregado de forma incompleta. Porém, boa parte do processo inicial da geração de código (isto é o layout dos objetos) foi feito de forma clara e bem sucedida, possuindo a mesma geração que o compilador real de COOL.

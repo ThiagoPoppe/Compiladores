@@ -4,12 +4,17 @@
  *)
 
 class A {
-    x : Int;
+    x : Int <- 10;
     y : String;
 };
 
+class B {
+    a : Int;
+    b : String <- "abc";
+};
+
 class Teste inherits A {
-    z : Bool;
+    z : Bool <- true;
 
     metodo() : Int { 0 };
 };

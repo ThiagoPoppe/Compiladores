@@ -48,14 +48,17 @@ private:
    List<CgenNode>* reverse_list(List<CgenNode> *l);
    int get_class_tag(Symbol class_name);
    int get_number_of_attributes(CgenNode *node);
+   
    void code_prototype_attributes(CgenNode *node);
    void emit_dispTab(CgenNode *node);
    
-
    void emit_prototype_objects();
    void emit_class_nameTab();
    void emit_class_objTab();
    void emit_dispatch_tables();
+
+   void emit_class_init();
+   void emit_class_methods();
 
 public:
    CgenClassTable(Classes, ostream& str);

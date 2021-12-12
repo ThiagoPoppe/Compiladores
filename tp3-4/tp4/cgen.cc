@@ -846,15 +846,15 @@ void CgenClassTable::code()
   if (cgen_debug) cout << "coding global text" << endl;
   code_global_text();
 
+  // Add your code to emit
+  // 1. object initializer
+  if (cgen_debug) cout << "emitting class initializer" << endl;
+  emit_class_init();
 
-
-//                 Add your code to emit
-//                   - object initializer
-//                   - the class methods
-//                   - etc...
-
+  // 2. class methods
+  if (cgen_debug) cout << "emitting class methods" << endl;
+  emit_class_methods();
 }
-
 
 CgenNodeP CgenClassTable::root()
 {
@@ -1005,9 +1005,10 @@ int CgenClassTable::get_number_of_attributes(CgenNode *node) {
 
   // Now we walk through it's features and if a feature is an attribute we increase the counter by 1
   Features f_list = node->features;
-  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i))
+  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i)) {
     if (f_list->nth(i)->feature_type() == 0) // attr
       n_attrib++;
+  }
 
   // Notice that this size does not include the "default" 3 fields (tag, size, dispTable)
   return n_attrib;
@@ -1023,7 +1024,7 @@ void CgenClassTable::code_prototype_attributes(CgenNode *node) {
 
   // Now we walk through it's features and if a feature is an attribute (0) we code it
   Features f_list = node->features;
-  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i))
+  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i)) {
     if (f_list->nth(i)->feature_type() == 0) {
       attr_class *attr = (attr_class *) f_list->nth(i);
 
@@ -1042,7 +1043,8 @@ void CgenClassTable::code_prototype_attributes(CgenNode *node) {
 
       str << endl;
     }
-  
+  }
+
   return ;
 }
 
@@ -1088,7 +1090,7 @@ void CgenClassTable::emit_class_nameTab() {
 void CgenClassTable::emit_class_objTab() {
   List<CgenNode> *reversed = reverse_list(nds);
 
-    str << CLASSOBJTAB << LABEL;
+  str << CLASSOBJTAB << LABEL;
   while (reversed != NULL) {
     Symbol name = reversed->hd()->get_name();
 
@@ -1109,11 +1111,12 @@ void CgenClassTable::emit_dispTab(CgenNode *node) {
 
   // Now we walk through it's features and if a feature is an method (1) we emit it
   Features f_list = node->features;
-  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i))
+  for (int i = f_list->first(); f_list->more(i); i = f_list->next(i)) {
     if (f_list->nth(i)->feature_type() == 1) {
       method_class *method = (method_class *) f_list->nth(i);
       str << WORD << node->get_name() << METHOD_SEP << method->name << endl;
-    }  
+    }
+  }
 }
 
 void CgenClassTable::emit_dispatch_tables() {
@@ -1127,4 +1130,88 @@ void CgenClassTable::emit_dispatch_tables() {
 
     reversed = reversed->tl();
   }
+}
+
+void CgenClassTable::emit_class_init() {
+  List<CgenNode> *reversed = reverse_list(nds);
+
+  while (reversed != NULL) {
+    CgenNode *node = reversed->hd();
+    str << node->get_name() << CLASSINIT_SUFFIX << LABEL;
+
+    // Updating $sp
+    emit_addiu(SP, SP, -12, str);
+
+    // Saving $fp, $self and $ra
+    emit_store(FP, 3, SP, str);
+    emit_store(SELF, 2, SP, str);
+    emit_store(RA, 1, SP, str);
+
+    // Updating $fp and moving $a0 to $s0
+    emit_addiu(FP, SP, 4, str);
+    emit_move(SELF, ACC, str);
+
+    // If class has parent, we need to jal to <parent>_init and update store_offset
+    CgenNode *parent = node->get_parentnd();
+    if (parent->get_name() != No_class)
+      str << JAL << parent->get_name() << CLASSINIT_SUFFIX << endl;
+
+    // Computing the offset to store attributes
+    // The starting address is 12 and we have +4 for each attribute in it's parents
+    // Notice that this offset is the number that multiplies WORD_SIZE!
+    int offset = 3 + get_number_of_attributes(parent);
+
+    // Now we walk through it's features and initialize attributes (0)
+    Features f_list = node->features;
+    for (int i = f_list->first(); f_list->more(i); i = f_list->next(i)) {
+      if (f_list->nth(i)->feature_type() == 0) {
+        attr_class *attr = (attr_class *) f_list->nth(i);
+
+        // We don't have an init
+        if (attr->init->is_no_expr()) {
+          offset++;
+          continue;
+        }
+
+        if (attr->type_decl == Int) {
+          emit_partial_load_address(ACC, str);
+          inttable.add_int(0)->code_ref(str);
+          str << endl;
+        }
+        else if (attr->type_decl == Bool) {
+          emit_partial_load_address(ACC, str);
+          falsebool.code_ref(str);
+          str << endl;
+        }
+        else if (attr->type_decl == Str) {
+          emit_partial_load_address(ACC, str);
+          stringtable.lookup_string("")->code_ref(str);
+          str << endl;
+        }
+        else
+          emit_move(ACC, ZERO, str);
+
+        // Store initialization
+        emit_store(ACC, offset, SELF, str);
+        offset++;
+      }
+    }
+
+    // Restoring registers
+    emit_move(ACC, SELF, str);
+    emit_load(FP, 3, SP, str);
+    emit_load(SELF, 2, SP, str);
+    emit_load(RA, 1, SP, str);
+    emit_addiu(SP, SP, 12, str);
+
+    // Calling jr to $ra
+    emit_return(str);
+
+    // Moving to next class
+    reversed = reversed->tl();
+  }
+}
+
+void CgenClassTable::emit_class_methods() {
+
 }
